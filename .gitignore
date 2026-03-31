@@ -1,0 +1,7 @@
+.env
+.env.local
+*.pem
+*.key
+*.p12
+.DS_Store
+node_modules/

@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SwiftSight Sprint Planning — SS-172 v2</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+  :root {
+    --bg: #0a0c14;
+    --surface: #141722;
+    --surface2: #1c2030;
+    --surface3: #242840;
+    --border: #2a2f48;
+    --text: #e8eaf2;
+    --text-muted: #7e83a0;
+    --accent: #6c7cff;
+
+    --iho: #4ecdc4;
+    --iho-bg: rgba(78,205,196,0.08);
+    --iho-border: rgba(78,205,196,0.25);
+    --taewung: #ff6b9d;
+    --taewung-bg: rgba(255,107,157,0.08);
+    --taewung-border: rgba(255,107,157,0.25);
+    --hyunsu: #ffd93d;
+    --hyunsu-bg: rgba(255,217,61,0.08);
+    --hyunsu-border: rgba(255,217,61,0.25);
+    --qa: #c084fc;
+    --qa-bg: rgba(192,132,252,0.08);
+    --qa-border: rgba(192,132,252,0.25);
+
+    --c376: #4ecdc4;
+    --c410: #ff6b6b;
+    --c409: #a29bfe;
+    --c371: #74b9ff;
+    --c416: #fdcb6e;
+    --c419: #55efc4;
+    --c356: #81ecec;
+    --c422: #b2bec3;
+    --c364: #fab1a0;
+    --c420: #e17055;
+    --c417: #00cec9;
+    --c418: #d63031;
+    --c72: #e84393;
+    --cqa: #c084fc;
+    --c422-s: #b2bec3;
+    --cbuf: transparent;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 32px 40px;
+    min-width: 1300px;
+  }
+
+  /* ─── Header ─── */
+  .header { text-align: center; margin-bottom: 36px; }
+  .header h1 { font-size: 30px; font-weight: 800; letter-spacing: -0.5px; }
+  .header .sub { color: var(--text-muted); font-size: 14px; margin-top: 6px; }
+  .header .sub b { color: var(--accent); font-weight: 600; }
+
+  /* ─── Summary Row ─── */
+  .summary { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 32px; }
+  .card { background: var(--surface); border:1px solid var(--border); border-radius: 12px; padding: 18px 20px; position: relative; overflow: hidden; }
+  .card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; }
+  .card.iho::before { background: var(--iho); }
+  .card.taewung::before { background: var(--taewung); }
+  .card.hyunsu::before { background: var(--hyunsu); }
+  .card.qa-card::before { background: var(--qa); }
+  .card .name { font-size:16px; font-weight:700; margin-bottom:2px; }
+  .card .role { font-size:12px; color:var(--text-muted); margin-bottom:10px; }
+  .card .row { display:flex; gap:14px; }
+  .card .st { text-align:center; }
+  .card .st .v { font-size:20px; font-weight:700; }
+  .card .st .l { font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:.5px; }
+  .card.iho .v { color:var(--iho); }
+  .card.taewung .v { color:var(--taewung); }
+  .card.hyunsu .v { color:var(--hyunsu); }
+  .card.qa-card .v { color:var(--qa); }
+  .pbar { width:100%; height:5px; background:var(--surface2); border-radius:3px; margin-top:10px; overflow:hidden; }
+  .pbar .fill { height:100%; border-radius:3px; }
+  .card.iho .fill { background:var(--iho); }
+  .card.taewung .fill { background:var(--taewung); }
+  .card.hyunsu .fill { background:var(--hyunsu); }
+  .card.qa-card .fill { background:var(--qa); }
+
+  /* ─── Legend ─── */
+  .legend { display:flex; flex-wrap:wrap; gap:10px 16px; margin-bottom:28px; padding:14px 20px; background:var(--surface); border:1px solid var(--border); border-radius:10px; }
+  .leg { display:flex; align-items:center; gap:5px; font-size:11px; }
+  .leg .dot { width:10px; height:10px; border-radius:3px; flex-shrink:0; }
+
+  /* ─── Card Map ─── */
+  .card-map { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px 24px; margin-bottom:28px; }
+  .card-map h3 { font-size:15px; font-weight:600; margin-bottom:14px; }
+  .card-map table { width:100%; border-collapse:collapse; font-size:12px; }
+  .card-map th { text-align:left; padding:6px 10px; color:var(--text-muted); font-weight:600; font-size:11px; text-transform:uppercase; letter-spacing:.5px; border-bottom:1px solid var(--border); }
+  .card-map td { padding:5px 10px; border-bottom:1px solid rgba(42,47,72,0.4); vertical-align:top; }
+  .card-map .jira { font-family:monospace; font-size:11px; color:var(--accent); }
+  .card-map .done { color:#55efc4; font-weight:600; }
+  .card-map .ip { color:#fdcb6e; font-weight:600; }
+  .card-map .todo { color:var(--text-muted); }
+
+  /* ─── Gantt ─── */
+  .gantt-wrap { background:var(--surface); border:1px solid var(--border); border-radius:12px; overflow:hidden; margin-bottom:28px; }
+  .gantt-head { padding:14px 20px; font-size:15px; font-weight:600; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:8px; }
+  .gantt { display:grid; grid-template-columns:180px 1fr; overflow-x:auto; }
+
+  .g-labels { border-right:1px solid var(--border); }
+  .g-labels .lh { height:50px; display:flex; align-items:center; padding:0 14px; font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:.5px; border-bottom:1px solid var(--border); }
+  .g-labels .lr { height:40px; display:flex; align-items:center; padding:0 14px; font-size:12px; font-weight:500; border-bottom:1px solid rgba(42,47,72,0.4); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .g-labels .lr.sec { background:var(--surface2); font-weight:700; font-size:11px; text-transform:uppercase; letter-spacing:.5px; height:30px; }
+  .g-labels .lr.sec.iho { color:var(--iho); }
+  .g-labels .lr.sec.taewung { color:var(--taewung); }
+  .g-labels .lr.sec.hyunsu { color:var(--hyunsu); }
+  .g-labels .lr.sec.qa-sec { color:var(--qa); }
+  .g-labels .lr.sec.story-sec { color:#60a5fa; }
+  .bar[data-jira] { cursor:pointer; }
+  .bar[data-jira]:hover::after { content:'↗'; margin-left:4px; font-size:9px; opacity:.6; }
+
+  /* AM/PM slot styling */
+  .g-row .cell.am-cell { border-left:1px solid rgba(42,47,72,0.5); }
+  .g-dates .dc.pm-slot { background:rgba(255,255,255,0.015); border-left:1px dashed rgba(42,47,72,0.2) !important; }
+  .g-dates .dc.pm-slot .dn { font-size:8px; opacity:.4; }
+
+  .g-chart { overflow-x:auto; }
+  .g-dates { display:grid; height:50px; border-bottom:1px solid var(--border); }
+  .g-dates .dc { display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:10px; border-left:1px solid rgba(42,47,72,0.35); }
+  .g-dates .dc .dn { color:var(--text-muted); font-size:9px; }
+  .g-dates .dc .dd { font-weight:700; font-size:12px; }
+  .g-dates .dc.today { background:rgba(108,124,255,0.12); }
+  .g-dates .dc.today .dd { color:var(--accent); }
+
+  .g-rows { position:relative; }
+  .today-line { position:absolute; top:0; bottom:0; width:2px; background:var(--accent); z-index:3; pointer-events:none; }
+  .today-line::after { content:'TODAY'; position:absolute; top:-18px; left:-16px; font-size:8px; font-weight:700; color:var(--accent); letter-spacing:0.5px; }
+  .g-row { display:grid; height:40px; border-bottom:1px solid rgba(42,47,72,0.4); position:relative; }
+  .g-row.sec { height:30px; background:var(--surface2); }
+  .g-row .cell { border-left:1px solid rgba(42,47,72,0.25); }
+
+  .bar {
+    position:absolute; top:4px; height:32px; border-radius:6px;
+    display:flex; align-items:center; padding:0 7px;
+    font-size:10px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    z-index:2; cursor:pointer; transition:transform .12s, box-shadow .12s;
+    color:#fff; text-shadow:0 1px 2px rgba(0,0,0,.3);
+  }
+  .bar:hover { transform:translateY(-1px); box-shadow:0 4px 16px rgba(0,0,0,.35); z-index:10; }
+  .bar .bl { overflow:hidden; text-overflow:ellipsis; }
+  .bar .bp { margin-left:auto; padding-left:5px; font-size:9px; opacity:.65; flex-shrink:0; }
+
+  .bar.buffer {
+    background: repeating-linear-gradient(-45deg, rgba(255,255,255,.025), rgba(255,255,255,.025) 4px, transparent 4px, transparent 8px) !important;
+    border:1px dashed rgba(255,255,255,.12); color:var(--text-muted); text-shadow:none;
+  }
+  .bar.qa-bar {
+    border:2px solid;
+    background: repeating-linear-gradient(90deg, rgba(192,132,252,.15), rgba(192,132,252,.25) 50%, rgba(192,132,252,.15) 100%) !important;
+    color:var(--qa); text-shadow:none; font-weight:700;
+  }
+  .bar.dep-arrow-bar {
+    background: rgba(255,255,255,0.06) !important;
+    border:1px dashed rgba(255,255,255,.2); color:var(--text-muted); text-shadow:none; font-weight:400;
+  }
+
+  /* ─── Tooltip ─── */
+  .tt { display:none; position:fixed; background:var(--surface3); border:1px solid var(--border); border-radius:8px; padding:12px 16px; font-size:12px; z-index:100; max-width:320px; box-shadow:0 8px 28px rgba(0,0,0,.5); pointer-events:none; }
+  .tt.show { display:block; }
+  .tt .t1 { font-weight:700; font-size:13px; margin-bottom:3px; }
+  .tt .t2 { color:var(--text-muted); line-height:1.6; }
+
+  /* ─── Notes ─── */
+  .notes { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px 24px; margin-bottom:28px; }
+  .notes h3 { font-size:15px; font-weight:600; margin-bottom:14px; }
+  .notes .ng { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .ns { padding:14px; border-radius:8px; border:1px solid; }
+  .ns.qa-note { background:var(--qa-bg); border-color:var(--qa-border); }
+  .ns.dep-note { background:rgba(108,124,255,0.06); border-color:rgba(108,124,255,0.2); }
+  .ns h4 { font-size:13px; margin-bottom:8px; }
+  .ns.qa-note h4 { color:var(--qa); }
+  .ns.dep-note h4 { color:var(--accent); }
+  .ns ol, .ns ul { padding-left:16px; font-size:11px; line-height:1.9; color:var(--text-muted); }
+  .ns .tag { display:inline-block; padding:1px 5px; border-radius:3px; font-size:9px; font-weight:700; margin-left:3px; }
+  .tag.be { background:rgba(255,107,157,.15); color:var(--taewung); }
+  .tag.fe { background:rgba(78,205,196,.15); color:var(--iho); }
+  .tag.qa { background:rgba(192,132,252,.15); color:var(--qa); }
+  .tag.buf { background:rgba(255,217,61,.15); color:var(--hyunsu); }
+
+  /* ─── Jira Links ─── */
+  .card-map a.jira { font-family:monospace; font-size:11px; color:var(--accent); text-decoration:none; cursor:pointer; }
+  .card-map a.jira:hover { text-decoration:underline; color:#8b9bff; }
+
+  /* ─── Column Width Slider ─── */
+  .controls { display:flex; align-items:center; gap:12px; margin-bottom:20px; padding:10px 20px; background:var(--surface); border:1px solid var(--border); border-radius:10px; }
+  .controls label { font-size:12px; color:var(--text-muted); font-weight:600; }
+  .controls input[type=range] { width:180px; accent-color:var(--accent); cursor:pointer; }
+  .controls .val { font-size:13px; color:var(--accent); font-weight:700; min-width:40px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>SwiftSight Sprint Planning v2</h1>
+  <div class="sub">
+    Epic <b>SS-172</b> &middot; 2026.3.27 (금) &rarr; 4.22 (수) &middot; <b>19 working days</b> &middot; Buffer 20% &middot;
+    <b>BE &rarr; FE &rarr; 1d Buffer &rarr; QA Test</b>
+  </div>
+</div>
+
+<!-- Summary -->
+<div class="summary">
+  <div class="card iho">
+    <div class="name">박이호</div><div class="role">Frontend &middot; AFE Board</div>
+    <div class="row">
+      <div class="st"><div class="v">122</div><div class="l">Story Pts</div></div>
+      <div class="st"><div class="v">122</div><div class="l">Budget</div></div>
+      <div class="st"><div class="v">~15.5d</div><div class="l">Dev Days</div></div>
+    </div>
+    <div class="pbar"><div class="fill" style="width:100%"></div></div>
+  </div>
+  <div class="card taewung">
+    <div class="name">박태웅</div><div class="role">Backend &middot; ABE Board</div>
+    <div class="row">
+      <div class="st"><div class="v">~120</div><div class="l">Story Pts</div></div>
+      <div class="st"><div class="v">122</div><div class="l">Budget</div></div>
+      <div class="st"><div class="v">~15d</div><div class="l">Dev Days</div></div>
+    </div>
+    <div class="pbar"><div class="fill" style="width:98%"></div></div>
+  </div>
+  <div class="card hyunsu">
+    <div class="name">승현수</div><div class="role">Backend &middot; ABE Board</div>
+    <div class="row">
+      <div class="st"><div class="v">91</div><div class="l">Story Pts</div></div>
+      <div class="st"><div class="v">114</div><div class="l">Budget</div></div>
+      <div class="st"><div class="v">~11.5d</div><div class="l">Dev Days</div></div>
+    </div>
+    <div class="pbar"><div class="fill" style="width:80%"></div></div>
+  </div>
+  <div class="card qa-card">
+    <div class="name">QA Test</div><div class="role">Feature Verification</div>
+    <div class="row">
+      <div class="st"><div class="v">4</div><div class="l">Features</div></div>
+      <div class="st"><div class="v">10d</div><div class="l">Test Days</div></div>
+      <div class="st"><div class="v">4/6</div><div class="l">QA Start</div></div>
+    </div>
+    <div class="pbar"><div class="fill" style="width:52%"></div></div>
+  </div>
+</div>
+
+<!-- Jira Card Map -->
+<div class="card-map">
+  <h3>Jira Dev Card Map (SS &rarr; BE/FE)</h3>
+  <table>
+    <tr><th>Story</th><th>Backend (ABE)</th><th>Frontend (AFE)</th><th>Design (AD)</th><th>BE Status</th><th>FE Status</th></tr>
+    <tr>
+      <td><a class="jira" href="https://airsmed.atlassian.net/browse/SS-419" target="_blank"><b>SS-419</b></a> Workflow Group</td>
+      <td><a class="jira" href="https://airsmed.atlassian.net/browse/ABE-68" target="_blank">ABE-68</a> (승현수, 4p)</td>
+      <td><a class="jira" href="https://airsmed.atlassian.net/browse/AFE-42" target="_blank">AFE-42</a> UI (이호, 8p)<br><a class="jira" href="https://airsmed.atlassian.net/browse/AFE-43" target="_blank">AFE-43</a> API (이호, 8p)</td>
+      <td><a class="jira" href="https://airsmed.atlassian.net/browse/AD-155" target="_blank">AD-155</a></td>
+      <td class="todo">Backlog</td>
+      <td class="todo">Selected</td>
+    </tr>
+    <tr>
+      <td><a class="jira" href="https://airsmed.atlassian.net/browse/SS-371" target="_blank"><b>SS-371</b></a> Job Detail</td>
+      <td><a class="jira" href="https://airsmed.atlassian.net/browse/ABE-76" target="_blank">ABE-76</a> API+Error (태웅, 6p)<br><a class="jira" href="https://airsmed.atlassian.net/browse/ABE-77" target="_blank">ABE-77</a> WebSocket (태웅, 8p)<br><a class="jira" href="https://airsmed.atlassian.net/browse/ABE-78" target="_blank">ABE-78</a> Mismatch (태웅, 4p)<br><a class="jira" href="https://airsmed.atlassian.net/browse/ABE-92" target="_blank">ABE-92</a> Action Log (태웅)</td>
+      <td><a class="jira" href="https://airsmed.atlassian.net/browse/AFE-44" target="_blank">AFE-44</a> UI+연동 (이호, 8p)</td>
+      <td><a class="jira" href="https://airsmed.atlassian.net/browse/AD-168" target="_blank">AD-168</a></td>
+      <td class="done">Done</td>
+      <td class="todo">Selected</td>
+    </tr>
+    <tr>
+      <td><a class="jira" href="https://airsmed.atlassian.net/browse/SS-409" target="_blank"><b>SS-409</b></a> Client 개편</td>
+      <td><a class="jira" href="https://airsmed.atlassian.net/browse/ABE-69" target="_blank">ABE-69</a> (승현수, 24p)</td>
+      <td><a class="jira" href="https://airsmed.atlassian.net/browse/AFE-49" target="_blank">AFE-49</a> UI (이호, 16p)<br>+ API 연동 (이호, 8p)</td>
+      <td><a class="jira" href="https://airsmed.atlassian.net/browse/AD-144" target="_blank">AD-144</a></td>
+      <td class="todo">Backlog</td>
+      <td class="todo">Selected</td>
+    </tr>
+    <tr>
+      <td><a class="jira" href="https://airsmed.atlassian.net/browse/SS-410" target="_blank"><b>SS-410</b></a> DTI Edit</td>
+      <td><a class="jira" href="https://airsmed.atlassian.net/browse/ABE-72" target="_blank">ABE-72</a> (승현수, 14p)<br>+ 메타데이터 API 16p<br>+ Proto 4p + Pipeline 16p</td>
+      <td><a class="jira" href="https://airsmed.atlassian.net/browse/AFE-48" target="_blank">AFE-48</a> 라벨링 (이호, 16p)<br><a class="jira" href="https://airsmed.atlassian.net/browse/AFE-47" target="_blank">AFE-47</a> 뷰어 (이호, 8p)<br><a class="jira" href="https://airsmed.atlassian.net/browse/AFE-50" target="_blank">AFE-50</a> API연동 (이호, 8p)<br>+ 설계 16p</td>
+      <td><a class="jira" href="https://airsmed.atlassian.net/browse/AD-145" target="_blank">AD-145</a> <a class="jira" href="https://airsmed.atlassian.net/browse/AD-158" target="_blank">AD-158</a></td>
+      <td class="todo">Backlog</td>
+      <td class="ip">In Progress</td>
+    </tr>
+    <tr>
+      <td><a class="jira" href="https://airsmed.atlassian.net/browse/SS-416" target="_blank"><b>SS-416</b></a> Report Tab</td>
+      <td><a class="jira" href="https://airsmed.atlassian.net/browse/ABE-73" target="_blank">ABE-73</a> (승현수, 5p)</td>
+      <td><a class="jira" href="https://airsmed.atlassian.net/browse/AFE-45" target="_blank">AFE-45</a> (이호, 8p)</td>
+      <td>-</td>
+      <td class="todo">Backlog</td>
+      <td class="todo">Selected</td>
+    </tr>
+    <tr>
+      <td><a class="jira" href="https://airsmed.atlassian.net/browse/SS-376" target="_blank"><b>SS-376</b></a> AE설정</td>
+      <td>-</td>
+      <td><a class="jira" href="https://airsmed.atlassian.net/browse/AFE-40" target="_blank">AFE-40</a> (이호, 8p)</td>
+      <td><a class="jira" href="https://airsmed.atlassian.net/browse/AD-156" target="_blank">AD-156</a></td>
+      <td style="color:#55efc4">N/A</td>
+      <td class="ip">In Progress</td>
+    </tr>
+    <tr>
+      <td><a class="jira" href="https://airsmed.atlassian.net/browse/SS-356" target="_blank"><b>SS-356</b></a> Metric Excel</td>
+      <td><a class="jira" href="https://airsmed.atlassian.net/browse/ABE-67" target="_blank">ABE-67</a> (승현수, 8p)</td>
+      <td><a class="jira" href="https://airsmed.atlassian.net/browse/AFE-41" target="_blank">AFE-41</a> API연동 (이호, 4p)</td>
+      <td><a class="jira" href="https://airsmed.atlassian.net/browse/AD-157" target="_blank">AD-157</a></td>
+      <td class="todo">Backlog</td>
+      <td class="todo">Selected</td>
+    </tr>
+    <tr>
+      <td><a class="jira" href="https://airsmed.atlassian.net/browse/SS-364" target="_blank"><b>SS-364</b></a> SwiftCL</td>
+      <td><a class="jira" href="https://airsmed.atlassian.net/browse/ABE-87" target="_blank">ABE-87</a> Retry (태웅, 8p)</td>
+      <td>-</td>
+      <td>-</td>
+      <td class="done">Done</td>
+      <td style="color:#55efc4">N/A</td>
+    </tr>
+    <tr>
+      <td><a class="jira" href="https://airsmed.atlassian.net/browse/SS-420" target="_blank"><b>SS-420</b></a> Config</td>
+      <td><a class="jira" href="https://airsmed.atlassian.net/browse/ABE-83" target="_blank">ABE-83</a> BE (태웅)<br><a class="jira" href="https://airsmed.atlassian.net/browse/ABE-84" target="_blank">ABE-84</a> FE (태웅)</td>
+      <td>-</td>
+      <td>-</td>
+      <td class="todo">Backlog</td>
+      <td class="todo">Backlog</td>
+    </tr>
+    <tr>
+      <td><a class="jira" href="https://airsmed.atlassian.net/browse/SS-417" target="_blank"><b>SS-417</b></a> CronJob</td>
+      <td><a class="jira" href="https://airsmed.atlassian.net/browse/ABE-85" target="_blank">ABE-85</a> (태웅, 4p)</td>
+      <td>-</td>
+      <td>-</td>
+      <td class="done">Done</td>
+      <td style="color:#55efc4">N/A</td>
+    </tr>
+    <tr>
+      <td><a class="jira" href="https://airsmed.atlassian.net/browse/SS-418" target="_blank"><b>SS-418</b></a> Worker</td>
+      <td>(태웅, ~56p)</td>
+      <td>-</td>
+      <td>-</td>
+      <td class="todo">Backlog</td>
+      <td style="color:#55efc4">N/A</td>
+    </tr>
+    <tr>
+      <td><a class="jira" href="https://airsmed.atlassian.net/browse/SS-422" target="_blank"><b>SS-422</b></a> Success Retry</td>
+      <td>(이호, 6p)</td>
+      <td>-</td>
+      <td>-</td>
+      <td class="todo">Backlog</td>
+      <td style="color:#55efc4">N/A</td>
+    </tr>
+  </table>
+</div>
+
+<!-- Legend -->
+<div class="legend">
+  <div class="leg"><div class="dot" style="background:var(--c376)"></div>SS-376</div>
+  <div class="leg"><div class="dot" style="background:var(--c419)"></div>SS-419</div>
+  <div class="leg"><div class="dot" style="background:var(--c371)"></div>SS-371</div>
+  <div class="leg"><div class="dot" style="background:var(--c409)"></div>SS-409</div>
+  <div class="leg"><div class="dot" style="background:var(--c410)"></div>SS-410</div>
+  <div class="leg"><div class="dot" style="background:var(--c416)"></div>SS-416</div>
+  <div class="leg"><div class="dot" style="background:var(--c356)"></div>SS-356</div>
+  <div class="leg"><div class="dot" style="background:var(--c422)"></div>SS-422</div>
+  <div class="leg"><div class="dot" style="background:var(--c364)"></div>SS-364</div>
+  <div class="leg"><div class="dot" style="background:var(--c418)"></div>SS-418</div>
+  <div class="leg"><div class="dot" style="background:var(--c420)"></div>SS-420</div>
+  <div class="leg"><div class="dot" style="background:var(--c417)"></div>SS-417</div>
+  <div class="leg"><div class="dot" style="background:var(--cqa);border:1px solid var(--qa)"></div>QA Test</div>
+  <div class="leg"><div class="dot" style="background:repeating-linear-gradient(-45deg,rgba(255,255,255,.06),rgba(255,255,255,.06) 2px,transparent 2px,transparent 4px);border:1px dashed rgba(255,255,255,.2)"></div>Buffer</div>
+</div>
+
+<!-- Column Width Control -->
+<div class="controls">
+  <label>Column Width</label>
+  <input type="range" id="colSlider" min="30" max="120" value="70" step="5" oninput="resizeCols(this.value)">
+  <span class="val" id="colVal">70px</span>
+</div>
+
+<!-- Gantt Chart -->
+<div class="gantt-wrap">
+  <div class="gantt-head">Sprint Gantt Chart &mdash; Dev + QA</div>
+  <div id="gantt" class="gantt"></div>
+</div>
+
+<!-- QA Notes -->
+<div class="notes">
+  <h3>QA Test Schedule &amp; Dependency Rules</h3>
+  <div class="ng">
+    <div class="ns qa-note">
+      <h4>QA Test Order &amp; Duration</h4>
+      <ol>
+        <li><b>SS-419</b> Workflow Group <span class="tag qa">3d</span> <span class="tag buf">4/6 ~ 4/8</span><br>
+          &rarr; 코어 매칭 로직. 다른 피쳐 테스트 전에 매칭 정상 동작 확보 필수</li>
+        <li><b>SS-371</b> Job Detail <span class="tag qa">1d</span> <span class="tag buf">4/10</span><br>
+          &rarr; Admin UI 확인. SS-419 매칭 결과를 활용하여 Job 상태 검증</li>
+        <li><b>SS-409</b> Client 개편 <span class="tag qa">3d</span> <span class="tag buf">4/13 ~ 4/15</span><br>
+          &rarr; User Role 전용 UI. 앞선 이슈 수정 반영 후 테스트</li>
+        <li><b>SS-410</b> DTI Edit <span class="tag qa">3d</span> <span class="tag buf">4/20 ~ 4/22</span><br>
+          &rarr; 독립 신규 기능. SS-416과 함께 개발 완료 후 ST 앞에 배치</li>
+      </ol>
+    </div>
+    <div class="ns dep-note">
+      <h4>BE &rarr; FE &rarr; Buffer &rarr; QA Rule</h4>
+      <ul>
+        <li><b>SS-419:</b> BE(현수 3/30) &rarr; FE(이호 4/1~4/2) &rarr; <span class="tag buf">Buffer 4/3</span> &rarr; <span class="tag qa">QA 4/6~4/8</span></li>
+        <li><b>SS-371:</b> BE(태웅 Done~3/31) &rarr; FE(이호 4/7~4/8) &rarr; <span class="tag buf">Buffer 4/9</span> &rarr; <span class="tag qa">QA 4/10</span></li>
+        <li><b>SS-409:</b> BE(현수 3/31~4/6) &rarr; FE(이호 4/3~4/6, API 4/8~4/9) &rarr; <span class="tag buf">Buffer 4/10</span> &rarr; <span class="tag qa">QA 4/13~4/15</span></li>
+        <li><b>SS-410+416:</b> BE(현수 ~4/14) &rarr; FE(이호 ~4/17) &rarr; <span class="tag buf">Buffer 4/18</span> &rarr; <span class="tag qa">QA 4/20~4/22</span></li>
+        <li><b>SS-376:</b> FE only (이호 3/27) &mdash; QA 대상 아님, BE 무관</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div id="tooltip" class="tt"></div>
+
+<script>
+// ── AM/PM Half-Day Slot System ──
+// 1 day = 2 slots (AM + PM), 4p = 1 slot, 8p = 2 slots
+// 19 working days × 2 = 38 slots total
+const DAYS = [
+  {d:'3/27',n:'금',m:3,dd:27},{d:'3/30',n:'월',m:3,dd:30},{d:'3/31',n:'화',m:3,dd:31},
+  {d:'4/1',n:'수',m:4,dd:1},{d:'4/2',n:'목',m:4,dd:2},{d:'4/3',n:'금',m:4,dd:3},
+  {d:'4/6',n:'월',m:4,dd:6},{d:'4/7',n:'화',m:4,dd:7},{d:'4/8',n:'수',m:4,dd:8},
+  {d:'4/9',n:'목',m:4,dd:9},{d:'4/10',n:'금',m:4,dd:10},
+  {d:'4/13',n:'월',m:4,dd:13},{d:'4/14',n:'화',m:4,dd:14},{d:'4/15',n:'수',m:4,dd:15},
+  {d:'4/16',n:'목',m:4,dd:16},{d:'4/17',n:'금',m:4,dd:17},
+  {d:'4/20',n:'월',m:4,dd:20},{d:'4/21',n:'화',m:4,dd:21},{d:'4/22',n:'수',m:4,dd:22},
+];
+// Build slot array: each day → [AM, PM]
+const W = [];
+DAYS.forEach(day => {
+  W.push({...day, half:'AM'});
+  W.push({...day, half:'PM'});
+});
+
+let CW = 70; // default column width (half-day slot)
+const TC = W.length; // 38 slots
+
+const J = 'https://airsmed.atlassian.net/browse/';
+
+// Slot index helper: day index → AM slot
+// day 0 → slot 0(AM),1(PM), day 1 → slot 2(AM),3(PM), etc.
+// s(slot) = dayIdx*2 for AM, dayIdx*2+1 for PM
+
+// [label, colorVar, startSlot, endSlot, pts, tooltip, barClass?, jiraKey?]
+const sections = [
+  {
+    name: 'Story Cards (SS)',
+    cls: 'story-sec',
+    tasks: [
+      ['SS-376 AE설정 일괄적용',       '--c376', 0, 1,   0, 'destination AE설정 일괄적용\nFE only (이호) | due: 3/27', null, 'SS-376'],
+      ['SS-419 Workflow Group',         '--c419', 2, 5,   0, 'Workflow Group 기능 추가\nBE(현수 3/30) → FE(이호 ~4/3)\ndue: 4/3 | QA: 4/7~4/9', null, 'SS-419'],
+      ['SS-371 Job Execution Detail',   '--c371', 0, 15,  0, 'Workflow Job Detail 가시성 개선\nBE(태웅 ~3/31) → FE(이호 4/8)\ndue: 4/8 | QA: 4/10', null, 'SS-371'],
+      ['SS-409 Client 개편',            '--c409', 6, 17,  0, 'Client 개편 User 중심 재설계\nBE(현수 ~4/7) → FE(이호 ~4/9)\ndue: 4/9 | QA: 4/14~4/16', null, 'SS-409'],
+      ['SS-356 Metric Excel',           '--c356', 0, 19,  0, 'Research 통계 metric excel\nBE(현수 3/31) → FE(이호 4/9)\ndue: 4/9', null, 'SS-356'],
+      ['SS-410 DTI Edit',               '--c410', 14,35,  0, 'DTI edit 기능 추가 (후반부 집중)\nBE(현수 ~4/16) → FE(이호 ~4/21)', null, 'SS-410'],
+      ['SS-416 Report Tab',             '--c416', 4, 33,  0, 'Setting Report tab 추가\nBE(현수 3/31) → FE(이호 4/20)', null, 'SS-416'],
+      ['SS-417 CronJob',                '--c417', 10,11,  0, 'SwiftSight CronJob 구현\n태웅 단독 | due: 4/3', null, 'SS-417'],
+      ['SS-418 Worker Integration',     '--c418', 12,29,  0, 'SwiftMR Worker Integration\n태웅 단독', null, 'SS-418'],
+      ['SS-420 Config Setting',         '--c420', 30,33,  0, 'Config Setting Page\n태웅 단독', null, 'SS-420'],
+      ['SS-422 Success Retry',          '--c422', 18,19,  0, '성공 Workflow Job Retry\n이호 4/9', null, 'SS-422'],
+    ]
+  },
+  {
+    name: '박이호 (Frontend)',
+    cls: 'iho',
+    tasks: [
+      // Week 1: 3/27~4/3
+      ['AFE-40 SS-376 벌크액션',   '--c376', 0, 1,   8,  'AFE-40 workflow 벌크액션 + dest AE\nFE only — 3/27 (8p=1일)', null, 'AFE-40'],
+      ['AFE-48 SS-410 라벨링조사', '--c410', 2, 5,   8,  'AFE-48 라벨링 툴 선행 조사\nBE 무관 — 조기 착수\n3/30~3/31 (TFS: 8p)', null, 'AFE-48'],
+      ['AFE-47 다이콤뷰어',        '--c410', 6, 7,   8,  'AFE-47 다이콤 뷰어 연동\nBE 무관 — 4/1 (8p=1일)', null, 'AFE-47'],
+      ['AFE-42,43 SS-419 UI+API',  '--c419', 8, 11,  16, 'AFE-42 UI (8p) + AFE-43 API (8p)\nABE-68 완료 후 착수\n4/2~4/3 (16p=2일)', null, 'AFE-42'],
+      // Week 2: 4/6~4/10
+      ['AFE-49 SS-409 UI',         '--c409', 12,15,  16, 'AFE-49 어드민/유저 레이아웃 분리\n4/6~4/7 (16p=2일)', null, 'AFE-49'],
+      ['AFE-44 SS-371 FE',         '--c371', 16,16,  4,  'AFE-44 Job execution details UI\n4/8 AM (TFS: 4p=반나절)', null, 'AFE-44'],
+      ['Buffer',                   'buf',    17,17,  0,  '4/8 PM 여유'],
+      ['AFE-49 SS-409 API연동',    '--c409', 18,19,  8,  'AFE-49 Client 개편 API 연동\n4/9 (8p=1일)', null, 'AFE-49'],
+      ['Buffer',                   'buf',    20,21,  0,  '버퍼 1일 (4/10)'],
+      // Week 3: 4/13~4/17
+      ['AFE-52 메타데이터 API 논의','--c410', 22,25, 16, 'AFE-52 DTI 메타데이터 API 스펙 논의\nBE(승현수 ABE-93)와 동시 진행\n4/13~4/14 (16p=2일)', null, 'AFE-52'],
+      ['AFE-45 SS-416 Report',     '--c416', 26,27,  8,  'AFE-45 Report 탭 + API연동\n4/15 (8p=1일)', null, 'AFE-45'],
+      ['AFE-50 SS-410 API연동',    '--c410', 28,29,  8,  'AFE-50 DTI edit API 연동\n4/16 (8p=1일)', null, 'AFE-50'],
+      ['AFE-41 SS-356 + SS-422',   '--c356', 30,31,  10, 'AFE-41 CSV export (4p) + SS-422 Retry (6p)\n4/17 (10p)', null, 'AFE-41'],
+      // Week 4: 4/20~4/22
+      ['Buffer',                   'buf',    32,37,  0,  '버퍼 3일 (4/20~4/22)\nQA 피드백 대응'],
+    ]
+  },
+  {
+    name: '박태웅 (Backend)',
+    cls: 'taewung',
+    tasks: [
+      // Week 1
+      ['ABE-76,77,78 SS-371 (18p)','--c371', 0, 5,   18, 'ABE-76 API (6p) + ABE-77 WS (8p) + ABE-78 Mismatch (4p)\n3/27~3/31 (18p)', null, 'ABE-76'],
+      ['ABE-87 SS-364 (8p)',       '--c364', 6, 7,    8,  'ABE-87 Workflow Retry\n4/1 (8p=1일)', null, 'ABE-87'],
+      ['Buffer',                   'buf',    8, 9,    0,  '버퍼 1일 (4/2)'],
+      // Week 2
+      ['ABE-85 SS-417 (4p)',       '--c417', 10,10,   4,  'ABE-85 CronJob Smoke Test\n4/3 AM (4p=반나절)', null, 'ABE-85'],
+      ['Buffer',                   'buf',    11,11,   0,  '4/3 PM 여유'],
+      ['SS-418 Worker (56p)',      '--c418', 12,25,   56, 'SwiftMR Worker Integration\n4/6~4/14 (56p=7일)\n※ ABE 개발카드 미생성', null, 'SS-418'],
+      // Week 3
+      ['ABE-94 파이프라인 (8p)',   '--c410', 26,27,   8,  'ABE-94 DTI 파이프라인\n태웅+현수 공동 (TFS: 8p)\n4/15 (1일)', null, 'ABE-94'],
+      ['Buffer',                   'buf',    28,29,   0,  '버퍼 1일 (4/16)'],
+      // Week 4
+      ['ABE-83,84 SS-420 (14p)',   '--c420', 30,33,   14, 'ABE-83 Config BE + ABE-84 Config FE\n4/17~4/20 (14p)', null, 'ABE-83'],
+      ['Buffer',                   'buf',    34,37,   0,  '버퍼 2일 (4/21~4/22)'],
+    ]
+  },
+  {
+    name: '승현수 (Backend)',
+    cls: 'hyunsu',
+    tasks: [
+      // Week 1 (3/27 현수 휴가)
+      ['휴가',                     'buf',    0, 1,    0,  '현수 휴가 (3/27 금)'],
+      ['ABE-68 SS-419 (4p)',       '--c419', 2, 2,    4,  'ABE-68 Workflow Group API\n3/30 AM (4p=반나절)', null, 'ABE-68'],
+      ['ABE-67 SS-356 (4p)',       '--c356', 3, 3,    4,  'ABE-67 Metric Excel\n3/30 PM (4p=반나절)', null, 'ABE-67'],
+      ['ABE-73 SS-416 (5p)',       '--c416', 4, 4,    5,  'ABE-73 Report tab API\n3/31 AM (5p=반나절)', null, 'ABE-73'],
+      ['ABE-95 Migration (4p)',    '--c416', 5, 5,    4,  'ABE-95 ReviewStatus migration\n★ 선행 필수\n3/31 PM (4p=반나절)', null, 'ABE-95'],
+      ['ABE-69 SS-409 API (13p)',  '--c409', 6, 9,    13, 'ABE-69 Client 개편 설계\n4/1~4/2 (13p≈2일)', null, 'ABE-69'],
+      ['Buffer',                   'buf',    10,10,   0,  '4/3 AM 여유'],
+      ['ABE-96 Socket (5p)',       '--c409', 11,11,   5,  'ABE-96 Socket 핸들링 설계\nblocked by ABE-95 ✓\n4/3 PM (5p=반나절)', null, 'ABE-96'],
+      // Week 2
+      ['ABE-72 DTI edit (14p)',    '--c410', 12,15,   14, 'ABE-72 DTI edit 기능\nblocked by ABE-95 ✓\n4/6~4/7 (14p≈2일)', null, 'ABE-72'],
+      ['Buffer',                   'buf',    16,17,   0,  '버퍼 1일 (4/8)'],
+      ['Buffer',                   'buf',    18,21,   0,  '버퍼 2일 (4/9~4/10)\n기획 추가 회의 대응'],
+      // Week 3
+      ['ABE-93 메타데이터 API (16p)','--c410', 22,25, 16, 'ABE-93 메타데이터 API 논의\nFE(이호 AFE-52)와 동시 진행\n4/13~4/14 (16p=2일)', null, 'ABE-93'],
+      ['ABE-94 파이프라인 (8p)',   '--c410', 26,27,   8,  'ABE-94 DTI 파이프라인\n태웅+현수 공동 (TFS: 8p)\n4/15 (1일)', null, 'ABE-94'],
+      ['Buffer',                   'buf',    28,37,   0,  '버퍼 (~5일)\n연구팀 의존성 / QA 피드백 대응\nABE-97은 정우진님 이관'],
+    ]
+  },
+  {
+    name: '전영선 (QA)',
+    cls: 'qa-sec',
+    tasks: [
+      ['Buffer (419 대기)',        'buf',    0, 13,   0,  'SS-419 FE 완료 대기\nBE 3/30 → FE ~4/3 → Buffer 4/6'],
+      ['AP-509 QA: SS-419 (3d)',   '--cqa',  14,19,  0,  'Workflow Group 테스트 (3일)\n4/7~4/9', 'qa-bar', 'AP-509'],
+      ['AP-510 QA: SS-371 (1d)',   '--cqa',  20,21,  0,  'Job Execution Detail 테스트 (1일)\n4/10', 'qa-bar', 'AP-510'],
+      ['Buffer',                   'buf',    22,23,  0,  'SS-409 FE 완료 대기 + Buffer'],
+      ['AP-511 QA: SS-409 (3d)',   '--cqa',  24,29,  0,  'Client 개편 테스트 (3일)\n4/14~4/16', 'qa-bar', 'AP-511'],
+      ['Buffer',                   'buf',    30,31,  0,  'SS-410+416 FE 완료 대기'],
+      ['AP-512 QA: SS-410+416',    '--cqa',  32,37,  0,  'DTI Edit + Report Tab 테스트 (3일)\n4/20~4/22', 'qa-bar', 'AP-512'],
+    ]
+  }
+];
+
+// ── Build / Rebuild Gantt ──
+function build() {
+  const g = document.getElementById('gantt');
+  g.innerHTML = '';
+
+  const L = document.createElement('div');
+  L.className = 'g-labels';
+  L.innerHTML = '<div class="lh">Team / Task</div>';
+
+  const C = document.createElement('div');
+  C.className = 'g-chart';
+  C.style.width = (TC * CW) + 'px';
+
+  // ── Date header (2-row: day name + AM/PM) ──
+  const D = document.createElement('div');
+  D.className = 'g-dates';
+  D.style.gridTemplateColumns = `repeat(${TC},${CW}px)`;
+  D.style.height = '50px';
+  let pm = 0;
+  W.forEach((w,i) => {
+    const c = document.createElement('div');
+    const isAM = w.half === 'AM';
+    c.className = 'dc' + (isAM ? '' : ' pm-slot');
+    if (isAM) {
+      const sm = w.m !== pm; pm = w.m;
+      c.innerHTML = `<span class="dn">${sm ? w.m+'월 ' : ''}${w.n}</span><span class="dd">${w.dd}</span>`;
+    } else {
+      c.innerHTML = `<span class="dn">PM</span>`;
+      c.style.borderLeft = 'none';
+    }
+    D.appendChild(c);
+  });
+  C.appendChild(D);
+
+  const R = document.createElement('div');
+  R.className = 'g-rows';
+
+  sections.forEach(sec => {
+    L.innerHTML += `<div class="lr sec ${sec.cls}">${sec.name}</div>`;
+    const sr = document.createElement('div');
+    sr.className = 'g-row sec';
+    sr.style.gridTemplateColumns = `repeat(${TC},${CW}px)`;
+    for(let i=0;i<TC;i++){const c=document.createElement('div');c.className='cell'+(i%2?'':' am-cell');sr.appendChild(c);}
+    R.appendChild(sr);
+
+    sec.tasks.forEach(t => {
+      const [label, cv, s, e, pts, tip, cls, jiraKey] = t;
+      const lrLink = jiraKey
+        ? `<a href="${J}${jiraKey}" target="_blank" style="color:inherit;text-decoration:none" title="Open ${jiraKey} in Jira">${label}</a>`
+        : label;
+      L.innerHTML += `<div class="lr">${lrLink}</div>`;
+
+      const row = document.createElement('div');
+      row.className = 'g-row';
+      row.style.gridTemplateColumns = `repeat(${TC},${CW}px)`;
+      row.style.position = 'relative';
+      for(let i=0;i<TC;i++){const c=document.createElement('div');c.className='cell'+(i%2?'':' am-cell');row.appendChild(c);}
+
+      const bar = document.createElement('div');
+      const span = e - s + 1;
+      if (cv === 'buf') {
+        bar.className = 'bar buffer';
+      } else if (cls === 'qa-bar') {
+        bar.className = 'bar qa-bar';
+        const col = getComputedStyle(document.documentElement).getPropertyValue(cv).trim();
+        bar.style.borderColor = col;
+      } else {
+        bar.className = 'bar';
+        const col = getComputedStyle(document.documentElement).getPropertyValue(cv).trim();
+        bar.style.background = `linear-gradient(135deg, ${col}dd, ${col}88)`;
+      }
+
+      bar.style.left = (s*CW+2)+'px';
+      bar.style.width = (span*CW-4)+'px';
+
+      if (jiraKey) {
+        bar.setAttribute('data-jira', jiraKey);
+        bar.addEventListener('click', () => window.open(J + jiraKey, '_blank'));
+      }
+
+      const availChars = Math.floor((span * CW - 16) / 7);
+      const short = label.length > availChars && availChars > 3 ? label.substring(0, availChars - 2)+'...' : label;
+      bar.innerHTML = `<span class="bl">${short}</span>${pts?`<span class="bp">${pts}p</span>`:''}`;
+
+      // Tooltip with slot info
+      const startDay = DAYS[Math.floor(s/2)];
+      const endDay = DAYS[Math.floor(e/2)];
+      const startHalf = s%2===0 ? 'AM' : 'PM';
+      const endHalf = e%2===0 ? 'AM' : 'PM';
+      bar.setAttribute('data-tip',`${label}\n${startDay.d} ${startHalf} ~ ${endDay.d} ${endHalf}\n${pts ? pts+' Story Points ('+Math.ceil(pts/4)+' slots)' : (cls==='qa-bar'?'QA Test':'Buffer')}${jiraKey ? '\n🔗 Click → '+jiraKey : ''}\n\n${tip}`);
+      bar.addEventListener('mouseenter', showTT);
+      bar.addEventListener('mouseleave', hideTT);
+      bar.addEventListener('mousemove', moveTT);
+
+      row.appendChild(bar);
+      R.appendChild(row);
+    });
+  });
+
+  // Today line
+  const today = new Date();
+  const todayM = today.getMonth() + 1;
+  const todayD = today.getDate();
+  let todaySlot = -1;
+  for (let i = 0; i < W.length; i++) {
+    if (W[i].m === todayM && W[i].dd === todayD && W[i].half === 'AM') { todaySlot = i; break; }
+  }
+  if (todaySlot >= 0) {
+    const line = document.createElement('div');
+    line.className = 'today-line';
+    line.style.left = (todaySlot * CW) + 'px';
+    R.appendChild(line);
+  }
+
+  C.appendChild(R);
+  g.appendChild(L);
+  g.appendChild(C);
+}
+
+// ── Column Resize ──
+function resizeCols(val) {
+  CW = parseInt(val);
+  document.getElementById('colVal').textContent = CW + 'px';
+  build();
+}
+
+// ── Tooltip ──
+const tt = document.getElementById('tooltip');
+function showTT(e){
+  const t=e.currentTarget.getAttribute('data-tip').split('\n');
+  tt.innerHTML=`<div class="t1">${t[0]}</div><div class="t2">${t.slice(1).join('<br>')}</div>`;
+  tt.classList.add('show');
+}
+function moveTT(e){tt.style.left=(e.clientX+14)+'px';tt.style.top=(e.clientY+14)+'px';}
+function hideTT(){tt.classList.remove('show');}
+
+build();
+</script>
+</body>
+</html>
