@@ -82,6 +82,7 @@
   .card.taewung .v { color:var(--taewung); }
   .card.hyunsu .v { color:var(--hyunsu); }
   .card.qa-card .v { color:var(--qa); }
+  .card .v.over { color:#ff6b6b !important; }
   .pbar { width:100%; height:5px; background:var(--surface2); border-radius:3px; margin-top:10px; overflow:hidden; }
   .pbar .fill { height:100%; border-radius:3px; }
   .card.iho .fill { background:var(--iho); }
@@ -126,6 +127,22 @@
   .g-row .cell.am-cell { border-left:1px solid rgba(42,47,72,0.5); }
   .g-dates .dc.pm-slot { background:rgba(255,255,255,0.015); border-left:1px dashed rgba(42,47,72,0.2) !important; }
   .g-dates .dc.pm-slot .dn { font-size:8px; opacity:.4; }
+
+  /* Done card styling */
+  .bar.done-bar {
+    opacity:.55;
+    background: repeating-linear-gradient(-45deg, rgba(85,239,196,.15), rgba(85,239,196,.15) 3px, transparent 3px, transparent 6px) !important;
+    border:1px solid rgba(85,239,196,.4);
+    text-decoration: line-through;
+    text-decoration-color: rgba(255,255,255,.4);
+  }
+  .bar.done-bar .done-check { margin-right:4px; font-size:10px; }
+
+  /* Collapsible sections */
+  .g-labels .lr.sec { cursor:pointer; user-select:none; }
+  .g-labels .lr.sec:hover { filter:brightness(1.2); }
+  .g-labels .lr.sec .toggle { font-size:10px; margin-right:4px; opacity:.6; }
+  .g-row.collapsed, .g-labels .lr.collapsed { display:none !important; }
 
   .g-chart { overflow-x:auto; }
   .g-dates { display:grid; height:50px; border-bottom:1px solid var(--border); }
@@ -206,7 +223,7 @@
 <div class="header">
   <h1>SwiftSight Sprint Planning v2</h1>
   <div class="sub">
-    Epic <b>SS-172</b> &middot; 2026.3.27 (금) &rarr; 4.22 (수) &middot; <b>19 working days</b> &middot; Buffer 20% &middot;
+    Epic <b>SS-172</b> &middot; 2026.3.27 (금) &rarr; 4.24 (금) &middot; <b>21 working days</b> &middot; 168p total &middot; Buffer 20% &middot;
     <b>BE &rarr; FE &rarr; 1d Buffer &rarr; QA Test</b>
   </div>
 </div>
@@ -214,38 +231,41 @@
 <!-- Summary -->
 <div class="summary">
   <div class="card iho">
-    <div class="name">박이호</div><div class="role">Frontend &middot; AFE Board</div>
+    <div class="name">박이호</div><div class="role">Frontend &middot; AFE Board &middot; 21d</div>
     <div class="row">
-      <div class="st"><div class="v">122</div><div class="l">Story Pts</div></div>
-      <div class="st"><div class="v">122</div><div class="l">Budget</div></div>
-      <div class="st"><div class="v">~15.5d</div><div class="l">Dev Days</div></div>
+      <div class="st"><div class="v">138</div><div class="l">Assigned</div></div>
+      <div class="st"><div class="v">134</div><div class="l">Budget (80%)</div></div>
+      <div class="st"><div class="v over">-4</div><div class="l">Remaining</div></div>
+      <div class="st"><div class="v">34</div><div class="l">Buffer (20%)</div></div>
     </div>
-    <div class="pbar"><div class="fill" style="width:100%"></div></div>
+    <div class="pbar"><div class="fill" style="width:100%;background:var(--c410)"></div></div>
   </div>
   <div class="card taewung">
-    <div class="name">박태웅</div><div class="role">Backend &middot; ABE Board</div>
+    <div class="name">박태웅</div><div class="role">Backend &middot; ABE Board &middot; 21d</div>
     <div class="row">
-      <div class="st"><div class="v">~120</div><div class="l">Story Pts</div></div>
-      <div class="st"><div class="v">122</div><div class="l">Budget</div></div>
-      <div class="st"><div class="v">~15d</div><div class="l">Dev Days</div></div>
+      <div class="st"><div class="v">112</div><div class="l">Assigned</div></div>
+      <div class="st"><div class="v">134</div><div class="l">Budget (80%)</div></div>
+      <div class="st"><div class="v" style="color:#55efc4">22</div><div class="l">Remaining</div></div>
+      <div class="st"><div class="v">34</div><div class="l">Buffer (20%)</div></div>
     </div>
-    <div class="pbar"><div class="fill" style="width:98%"></div></div>
+    <div class="pbar"><div class="fill" style="width:81%"></div></div>
   </div>
   <div class="card hyunsu">
-    <div class="name">승현수</div><div class="role">Backend &middot; ABE Board</div>
+    <div class="name">승현수</div><div class="role">Backend &middot; ABE Board &middot; 20d (휴가1)</div>
     <div class="row">
-      <div class="st"><div class="v">91</div><div class="l">Story Pts</div></div>
-      <div class="st"><div class="v">114</div><div class="l">Budget</div></div>
-      <div class="st"><div class="v">~11.5d</div><div class="l">Dev Days</div></div>
+      <div class="st"><div class="v">73</div><div class="l">Assigned</div></div>
+      <div class="st"><div class="v">128</div><div class="l">Budget (80%)</div></div>
+      <div class="st"><div class="v" style="color:#55efc4">55</div><div class="l">Remaining</div></div>
+      <div class="st"><div class="v">32</div><div class="l">Buffer (20%)</div></div>
     </div>
-    <div class="pbar"><div class="fill" style="width:80%"></div></div>
+    <div class="pbar"><div class="fill" style="width:57%"></div></div>
   </div>
   <div class="card qa-card">
-    <div class="name">QA Test</div><div class="role">Feature Verification</div>
+    <div class="name">전영선 (QA)</div><div class="role">AIRS PQ &middot; AP Board</div>
     <div class="row">
       <div class="st"><div class="v">4</div><div class="l">Features</div></div>
       <div class="st"><div class="v">10d</div><div class="l">Test Days</div></div>
-      <div class="st"><div class="v">4/6</div><div class="l">QA Start</div></div>
+      <div class="st"><div class="v">4/7</div><div class="l">QA Start</div></div>
     </div>
     <div class="pbar"><div class="fill" style="width:52%"></div></div>
   </div>
@@ -430,6 +450,7 @@ const DAYS = [
   {d:'4/13',n:'월',m:4,dd:13},{d:'4/14',n:'화',m:4,dd:14},{d:'4/15',n:'수',m:4,dd:15},
   {d:'4/16',n:'목',m:4,dd:16},{d:'4/17',n:'금',m:4,dd:17},
   {d:'4/20',n:'월',m:4,dd:20},{d:'4/21',n:'화',m:4,dd:21},{d:'4/22',n:'수',m:4,dd:22},
+  {d:'4/23',n:'목',m:4,dd:23},{d:'4/24',n:'금',m:4,dd:24},
 ];
 // Build slot array: each day → [AM, PM]
 const W = [];
@@ -458,7 +479,7 @@ const sections = [
       ['SS-371 Job Execution Detail',   '--c371', 0, 15,  0, 'Workflow Job Detail 가시성 개선\nBE(태웅 ~3/31) → FE(이호 4/8)\ndue: 4/8 | QA: 4/10', null, 'SS-371'],
       ['SS-409 Client 개편',            '--c409', 6, 17,  0, 'Client 개편 User 중심 재설계\nBE(현수 ~4/7) → FE(이호 ~4/9)\ndue: 4/9 | QA: 4/14~4/16', null, 'SS-409'],
       ['SS-356 Metric Excel',           '--c356', 0, 19,  0, 'Research 통계 metric excel\nBE(현수 3/31) → FE(이호 4/9)\ndue: 4/9', null, 'SS-356'],
-      ['SS-410 DTI Edit',               '--c410', 14,35,  0, 'DTI edit 기능 추가 (후반부 집중)\nBE(현수 ~4/16) → FE(이호 ~4/21)', null, 'SS-410'],
+      ['SS-410 DTI Edit',               '--c410', 14,37,  0, 'DTI edit 기능 추가 (후반부 집중)\nBE(현수 ~4/16) → FE(이호 ~4/21)\n개발 기한 4/24', null, 'SS-410'],
       ['SS-416 Report Tab',             '--c416', 4, 33,  0, 'Setting Report tab 추가\nBE(현수 3/31) → FE(이호 4/20)', null, 'SS-416'],
       ['SS-417 CronJob',                '--c417', 10,11,  0, 'SwiftSight CronJob 구현\n태웅 단독 | due: 4/3', null, 'SS-417'],
       ['SS-418 Worker Integration',     '--c418', 12,29,  0, 'SwiftMR Worker Integration\n태웅 단독', null, 'SS-418'],
@@ -471,23 +492,24 @@ const sections = [
     cls: 'iho',
     tasks: [
       // Week 1: 3/27~4/3
-      ['AFE-40 SS-376 벌크액션',   '--c376', 0, 1,   8,  'AFE-40 workflow 벌크액션 + dest AE\nFE only — 3/27 (8p=1일)', null, 'AFE-40'],
-      ['AFE-48 SS-410 라벨링조사', '--c410', 2, 5,   8,  'AFE-48 라벨링 툴 선행 조사\nBE 무관 — 조기 착수\n3/30~3/31 (TFS: 8p)', null, 'AFE-48'],
-      ['AFE-47 다이콤뷰어',        '--c410', 6, 7,   8,  'AFE-47 다이콤 뷰어 연동\nBE 무관 — 4/1 (8p=1일)', null, 'AFE-47'],
-      ['AFE-42,43 SS-419 UI+API',  '--c419', 8, 11,  16, 'AFE-42 UI (8p) + AFE-43 API (8p)\nABE-68 완료 후 착수\n4/2~4/3 (16p=2일)', null, 'AFE-42'],
+      ['AFE-40 SS-376 벌크액션',   '--c376', 0, 1,   8,  'AFE-40 workflow 벌크액션 + dest AE\nFE only — 3/27 (8p=1일)\n✅ Done', null, 'AFE-40', true],
+      ['AFE-48 SS-410 라벨링조사', '--c410', 2, 5,   16, 'AFE-48 라벨링 툴 선행 조사\nBE 무관 — 조기 착수\n3/30~3/31 (TFS: 16p)\n✅ Done', null, 'AFE-48', true],
+      ['AFE-47 다이콤뷰어',        '--c410', 6, 7,   8,  'AFE-47 다이콤 뷰어 연동\nBE 무관 — 4/1 (8p=1일)\n✅ Done', null, 'AFE-47', true],
+      ['AFE-42,43 SS-419 UI+API',  '--c419', 8, 11,  16, 'AFE-42 UI (8p) + AFE-43 API (8p)\nABE-68 완료 후 착수\n4/2~4/3 (16p=2일)\n✅ Done', null, 'AFE-42', true],
       // Week 2: 4/6~4/10
       ['AFE-49 SS-409 UI',         '--c409', 12,15,  16, 'AFE-49 어드민/유저 레이아웃 분리\n4/6~4/7 (16p=2일)', null, 'AFE-49'],
-      ['AFE-44 SS-371 FE',         '--c371', 16,16,  4,  'AFE-44 Job execution details UI\n4/8 AM (TFS: 4p=반나절)', null, 'AFE-44'],
-      ['Buffer',                   'buf',    17,17,  0,  '4/8 PM 여유'],
-      ['AFE-49 SS-409 API연동',    '--c409', 18,19,  8,  'AFE-49 Client 개편 API 연동\n4/9 (8p=1일)', null, 'AFE-49'],
-      ['Buffer',                   'buf',    20,21,  0,  '버퍼 1일 (4/10)'],
+      ['AFE-58 Migration FE (8p)', '--c416', 16,17,  8,  'AFE-58 Review Status Migration FE\nABE-95+96 완료 후 + DTI UI 후\n4/8 수 (8p=1일)', null, 'AFE-58'],
+      ['AFE-44 SS-371 FE (8p)',   '--c371', 18,19,  8,  'AFE-44 Job execution details UI+연동\n4/9 (TFS: 8p=1일)', null, 'AFE-44'],
+      ['Buffer',                   'buf',    20,21,  0,  '버퍼 1일 (4/10)\nWeek 2 리프레시'],
       // Week 3: 4/13~4/17
-      ['AFE-52 메타데이터 API 논의','--c410', 22,25, 16, 'AFE-52 DTI 메타데이터 API 스펙 논의\nBE(승현수 ABE-93)와 동시 진행\n4/13~4/14 (16p=2일)', null, 'AFE-52'],
-      ['AFE-45 SS-416 Report',     '--c416', 26,27,  8,  'AFE-45 Report 탭 + API연동\n4/15 (8p=1일)', null, 'AFE-45'],
-      ['AFE-50 SS-410 API연동',    '--c410', 28,29,  8,  'AFE-50 DTI edit API 연동\n4/16 (8p=1일)', null, 'AFE-50'],
-      ['AFE-41 SS-356 + SS-422',   '--c356', 30,31,  10, 'AFE-41 CSV export (4p) + SS-422 Retry (6p)\n4/17 (10p)', null, 'AFE-41'],
-      // Week 4: 4/20~4/22
-      ['Buffer',                   'buf',    32,37,  0,  '버퍼 3일 (4/20~4/22)\nQA 피드백 대응'],
+      ['AFE-49 SS-409 API연동',    '--c409', 22,23,  8,  'AFE-49 Client 개편 API 연동\n4/13 (8p=1일)', null, 'AFE-49'],
+      ['AFE-52 메타데이터 API 논의','--c410', 24,27, 16, 'AFE-52 DTI 메타데이터 API 스펙 논의\nBE(승현수 ABE-93)와 동시 진행\n4/14~4/15 (16p=2일)', null, 'AFE-52'],
+      ['Buffer',                   'buf',    28,29,  0,  '버퍼 1일 (4/16)\nWeek 3 리프레시'],
+      ['AFE-45 SS-416 Report',     '--c416', 30,31,  8,  'AFE-45 Report 탭 + API연동\n4/17 (8p=1일)', null, 'AFE-45'],
+      // Week 4: 4/20~4/24
+      ['AFE-50 SS-410 API연동',    '--c410', 32,33,  8,  'AFE-50 DTI edit API 연동\n4/20 (8p=1일)', null, 'AFE-50'],
+      ['AFE-41 SS-356 + SS-422',   '--c356', 34,35,  10, 'AFE-41 CSV export (4p) + SS-422 Retry (6p)\n4/21 (10p)', null, 'AFE-41'],
+      ['Buffer',                   'buf',    36,41,  0,  '버퍼 3일 (4/22~4/24)\nQA 피드백 대응 / 이슈 수정'],
     ]
   },
   {
@@ -495,19 +517,18 @@ const sections = [
     cls: 'taewung',
     tasks: [
       // Week 1
-      ['ABE-76,77,78 SS-371 (18p)','--c371', 0, 5,   18, 'ABE-76 API (6p) + ABE-77 WS (8p) + ABE-78 Mismatch (4p)\n3/27~3/31 (18p)', null, 'ABE-76'],
-      ['ABE-87 SS-364 (8p)',       '--c364', 6, 7,    8,  'ABE-87 Workflow Retry\n4/1 (8p=1일)', null, 'ABE-87'],
+      ['ABE-76,77,78 SS-371 (18p)','--c371', 0, 5,   18, 'ABE-76 API (6p) + ABE-77 WS (8p) + ABE-78 Mismatch (4p)\n3/27~3/31 (18p)\n✅ Done', null, 'ABE-76', true],
+      ['ABE-87 SS-364 (8p)',       '--c364', 6, 7,    8,  'ABE-87 Workflow Retry\n4/1 (8p=1일)\n✅ Done', null, 'ABE-87', true],
       ['Buffer',                   'buf',    8, 9,    0,  '버퍼 1일 (4/2)'],
       // Week 2
-      ['ABE-85 SS-417 (4p)',       '--c417', 10,10,   4,  'ABE-85 CronJob Smoke Test\n4/3 AM (4p=반나절)', null, 'ABE-85'],
-      ['Buffer',                   'buf',    11,11,   0,  '4/3 PM 여유'],
+      ['ABE-85 SS-417 (8p)',       '--c417', 10,11,   8,  'ABE-85 CronJob Smoke Test\n4/3 (TFS: 8p=1일)\n✅ Done', null, 'ABE-85', true],
       ['SS-418 Worker (56p)',      '--c418', 12,25,   56, 'SwiftMR Worker Integration\n4/6~4/14 (56p=7일)\n※ ABE 개발카드 미생성', null, 'SS-418'],
       // Week 3
       ['ABE-94 파이프라인 (8p)',   '--c410', 26,27,   8,  'ABE-94 DTI 파이프라인\n태웅+현수 공동 (TFS: 8p)\n4/15 (1일)', null, 'ABE-94'],
       ['Buffer',                   'buf',    28,29,   0,  '버퍼 1일 (4/16)'],
       // Week 4
       ['ABE-83,84 SS-420 (14p)',   '--c420', 30,33,   14, 'ABE-83 Config BE + ABE-84 Config FE\n4/17~4/20 (14p)', null, 'ABE-83'],
-      ['Buffer',                   'buf',    34,37,   0,  '버퍼 2일 (4/21~4/22)'],
+      ['Buffer',                   'buf',    34,41,   0,  '버퍼 4일 (4/21~4/24)\n여유 26p 활용 가능'],
     ]
   },
   {
@@ -516,34 +537,37 @@ const sections = [
     tasks: [
       // Week 1 (3/27 현수 휴가)
       ['휴가',                     'buf',    0, 1,    0,  '현수 휴가 (3/27 금)'],
-      ['ABE-68 SS-419 (4p)',       '--c419', 2, 2,    4,  'ABE-68 Workflow Group API\n3/30 AM (4p=반나절)', null, 'ABE-68'],
-      ['ABE-67 SS-356 (4p)',       '--c356', 3, 3,    4,  'ABE-67 Metric Excel\n3/30 PM (4p=반나절)', null, 'ABE-67'],
+      ['ABE-68 SS-419 (4p)',       '--c419', 2, 2,    4,  'ABE-68 Workflow Group API\n3/30 AM (4p=반나절)\n✅ Done', null, 'ABE-68', true],
+      ['ABE-67 SS-356 (4p)',       '--c356', 3, 3,    4,  'ABE-67 Metric Excel\n3/30 PM (4p=반나절)\n✅ Done', null, 'ABE-67', true],
       ['ABE-73 SS-416 (5p)',       '--c416', 4, 4,    5,  'ABE-73 Report tab API\n3/31 AM (5p=반나절)', null, 'ABE-73'],
       ['ABE-95 Migration (4p)',    '--c416', 5, 5,    4,  'ABE-95 ReviewStatus migration\n★ 선행 필수\n3/31 PM (4p=반나절)', null, 'ABE-95'],
       ['ABE-69 SS-409 API (13p)',  '--c409', 6, 9,    13, 'ABE-69 Client 개편 설계\n4/1~4/2 (13p≈2일)', null, 'ABE-69'],
       ['Buffer',                   'buf',    10,10,   0,  '4/3 AM 여유'],
       ['ABE-96 Socket (5p)',       '--c409', 11,11,   5,  'ABE-96 Socket 핸들링 설계\nblocked by ABE-95 ✓\n4/3 PM (5p=반나절)', null, 'ABE-96'],
       // Week 2
-      ['ABE-72 DTI edit (14p)',    '--c410', 12,15,   14, 'ABE-72 DTI edit 기능\nblocked by ABE-95 ✓\n4/6~4/7 (14p≈2일)', null, 'ABE-72'],
-      ['Buffer',                   'buf',    16,17,   0,  '버퍼 1일 (4/8)'],
-      ['Buffer',                   'buf',    18,21,   0,  '버퍼 2일 (4/9~4/10)\n기획 추가 회의 대응'],
+      ['Buffer',                   'buf',    12,15,   0,  '버퍼 2일 (4/6~4/7)\n기획 추가 회의 / 연구팀 조율'],
+      ['ABE-72 DTI edit (14p)',    '--c410', 16,19,   14, 'ABE-72 DTI edit 기능\nblocked by ABE-95 ✓\n4/8~4/9 (14p≈2일, 수요일 시작)', null, 'ABE-72'],
+      ['Buffer',                   'buf',    20,21,   0,  '버퍼 1일 (4/10)'],
       // Week 3
       ['ABE-93 메타데이터 API (16p)','--c410', 22,25, 16, 'ABE-93 메타데이터 API 논의\nFE(이호 AFE-52)와 동시 진행\n4/13~4/14 (16p=2일)', null, 'ABE-93'],
       ['ABE-94 파이프라인 (8p)',   '--c410', 26,27,   8,  'ABE-94 DTI 파이프라인\n태웅+현수 공동 (TFS: 8p)\n4/15 (1일)', null, 'ABE-94'],
-      ['Buffer',                   'buf',    28,37,   0,  '버퍼 (~5일)\n연구팀 의존성 / QA 피드백 대응\nABE-97은 정우진님 이관'],
+      ['Buffer',                   'buf',    28,41,   0,  '버퍼 (~7일)\n연구팀 의존성 / QA 피드백 대응\nABE-97은 정우진님 이관\n여유 55p 활용 가능'],
     ]
   },
   {
     name: '전영선 (QA)',
     cls: 'qa-sec',
     tasks: [
-      ['Buffer (419 대기)',        'buf',    0, 13,   0,  'SS-419 FE 완료 대기\nBE 3/30 → FE ~4/3 → Buffer 4/6'],
-      ['AP-509 QA: SS-419 (3d)',   '--cqa',  14,19,  0,  'Workflow Group 테스트 (3일)\n4/7~4/9', 'qa-bar', 'AP-509'],
-      ['AP-510 QA: SS-371 (1d)',   '--cqa',  20,21,  0,  'Job Execution Detail 테스트 (1일)\n4/10', 'qa-bar', 'AP-510'],
-      ['Buffer',                   'buf',    22,23,  0,  'SS-409 FE 완료 대기 + Buffer'],
-      ['AP-511 QA: SS-409 (3d)',   '--cqa',  24,29,  0,  'Client 개편 테스트 (3일)\n4/14~4/16', 'qa-bar', 'AP-511'],
-      ['Buffer',                   'buf',    30,31,  0,  'SS-410+416 FE 완료 대기'],
-      ['AP-512 QA: SS-410+416',    '--cqa',  32,37,  0,  'DTI Edit + Report Tab 테스트 (3일)\n4/20~4/22', 'qa-bar', 'AP-512'],
+      // SS-419: QA 4/7~4/9
+      ['Buffer (419 대기)',        'buf',    0, 13,   0,  'SS-419 FE 완료 대기'],
+      ['AP-519 QA: SS-419 (3d)',   '--cqa',  14,19,  0,  'Workflow Group 테스트 (3일)\n4/7~4/9\n리뷰 기한: 4/3(금)', 'qa-bar', 'AP-519'],
+      // SS-371+416 준비 + SS-409 테스트: 4/10~4/17
+      ['AP-520 준비: SS-371',      '--c371', 20,25,  0,  'Job Execution Detail 테스트 준비\n4/10~4/14 (3일)', null, 'AP-520'],
+      ['AP-521 QA: SS-409 (3d)',   '--cqa',  26,31,  0,  'Client 개편 테스트 (3일)\n4/15~4/17\n리뷰 기한: 4/10(금)', 'qa-bar', 'AP-521'],
+      // SS-371 테스트: 4/20~4/21
+      ['AP-520 QA: SS-371 (2d)',   '--cqa',  32,35,  0,  'Job Execution Detail 테스트 (2일)\n4/20~4/21', 'qa-bar', 'AP-520'],
+      // SS-410: QA 4/22~4/24
+      ['AP-522 QA: SS-410 (3d)',   '--cqa',  36,41,  0,  'DTI Edit 테스트 (3일)\n4/22~4/24', 'qa-bar', 'AP-522'],
     ]
   }
 ];
@@ -585,23 +609,30 @@ function build() {
   const R = document.createElement('div');
   R.className = 'g-rows';
 
-  sections.forEach(sec => {
-    L.innerHTML += `<div class="lr sec ${sec.cls}">${sec.name}</div>`;
+  const collapsedSections = new Set();
+
+  sections.forEach((sec, secIdx) => {
+    const secId = 'sec-' + secIdx;
+    const isCollapsed = collapsedSections.has(secIdx);
+    L.innerHTML += `<div class="lr sec ${sec.cls}" data-sec="${secIdx}"><span class="toggle">${isCollapsed?'+':'-'}</span>${sec.name}</div>`;
     const sr = document.createElement('div');
     sr.className = 'g-row sec';
+    sr.setAttribute('data-sec', secIdx);
     sr.style.gridTemplateColumns = `repeat(${TC},${CW}px)`;
     for(let i=0;i<TC;i++){const c=document.createElement('div');c.className='cell'+(i%2?'':' am-cell');sr.appendChild(c);}
     R.appendChild(sr);
 
     sec.tasks.forEach(t => {
-      const [label, cv, s, e, pts, tip, cls, jiraKey] = t;
+      const [label, cv, s, e, pts, tip, cls, jiraKey, done] = t;
+      const donePrefix = done ? '✅ ' : '';
       const lrLink = jiraKey
-        ? `<a href="${J}${jiraKey}" target="_blank" style="color:inherit;text-decoration:none" title="Open ${jiraKey} in Jira">${label}</a>`
-        : label;
-      L.innerHTML += `<div class="lr">${lrLink}</div>`;
+        ? `<a href="${J}${jiraKey}" target="_blank" style="color:inherit;text-decoration:none" title="Open ${jiraKey} in Jira">${donePrefix}${label}</a>`
+        : `${donePrefix}${label}`;
+      L.innerHTML += `<div class="lr" data-sec="${secIdx}">${lrLink}</div>`;
 
       const row = document.createElement('div');
       row.className = 'g-row';
+      row.setAttribute('data-sec', secIdx);
       row.style.gridTemplateColumns = `repeat(${TC},${CW}px)`;
       row.style.position = 'relative';
       for(let i=0;i<TC;i++){const c=document.createElement('div');c.className='cell'+(i%2?'':' am-cell');row.appendChild(c);}
@@ -614,6 +645,8 @@ function build() {
         bar.className = 'bar qa-bar';
         const col = getComputedStyle(document.documentElement).getPropertyValue(cv).trim();
         bar.style.borderColor = col;
+      } else if (done) {
+        bar.className = 'bar done-bar';
       } else {
         bar.className = 'bar';
         const col = getComputedStyle(document.documentElement).getPropertyValue(cv).trim();
@@ -630,7 +663,8 @@ function build() {
 
       const availChars = Math.floor((span * CW - 16) / 7);
       const short = label.length > availChars && availChars > 3 ? label.substring(0, availChars - 2)+'...' : label;
-      bar.innerHTML = `<span class="bl">${short}</span>${pts?`<span class="bp">${pts}p</span>`:''}`;
+      const doneIcon = done ? '<span class="done-check">✅</span>' : '';
+      bar.innerHTML = `${doneIcon}<span class="bl">${short}</span>${pts?`<span class="bp">${pts}p</span>`:''}`;
 
       // Tooltip with slot info
       const startDay = DAYS[Math.floor(s/2)];
@@ -665,6 +699,19 @@ function build() {
   C.appendChild(R);
   g.appendChild(L);
   g.appendChild(C);
+
+  // ── Collapse/Expand click handlers ──
+  document.querySelectorAll('.g-labels .lr.sec').forEach(el => {
+    el.addEventListener('click', () => {
+      const secIdx = el.getAttribute('data-sec');
+      const rows = document.querySelectorAll(`[data-sec="${secIdx}"]:not(.sec)`);
+      const labels = document.querySelectorAll(`.g-labels .lr[data-sec="${secIdx}"]:not(.sec)`);
+      const isHidden = rows[0] && rows[0].classList.contains('collapsed');
+      rows.forEach(r => r.classList.toggle('collapsed', !isHidden));
+      labels.forEach(l => l.classList.toggle('collapsed', !isHidden));
+      el.querySelector('.toggle').textContent = isHidden ? '-' : '+';
+    });
+  });
 }
 
 // ── Column Resize ──
