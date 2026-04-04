@@ -128,6 +128,13 @@
   .g-dates .dc.pm-slot { background:rgba(255,255,255,0.015); border-left:1px dashed rgba(42,47,72,0.2) !important; }
   .g-dates .dc.pm-slot .dn { font-size:8px; opacity:.4; }
 
+  /* Weekend styling */
+  .g-dates .dc.weekend { background:rgba(255,107,107,0.06); }
+  .g-dates .dc.weekend .dd { color:rgba(255,107,107,0.5); font-size:11px; }
+  .g-dates .dc.weekend .dn { color:rgba(255,107,107,0.4); }
+  .g-row .cell.weekend-cell { background:rgba(255,107,107,0.03); }
+  .g-row.sec .cell.weekend-cell { background:rgba(255,107,107,0.05); }
+
   /* Done card styling */
   .bar.done-bar {
     opacity:.55;
@@ -144,6 +151,13 @@
   .g-labels .lr.sec .toggle { font-size:10px; margin-right:4px; opacity:.6; }
   .g-row.collapsed, .g-labels .lr.collapsed { display:none !important; }
 
+  /* Story filter highlight */
+  .bar.dimmed { opacity:.15 !important; }
+  .g-labels .lr.dimmed { opacity:.3; }
+  .legend .leg { cursor:pointer; padding:3px 6px; border-radius:4px; transition:background .15s; }
+  .legend .leg:hover { background:rgba(255,255,255,.06); }
+  .legend .leg.active { background:rgba(108,124,255,.15); outline:1px solid var(--accent); }
+
   .g-chart { overflow-x:auto; }
   .g-dates { display:grid; height:50px; border-bottom:1px solid var(--border); }
   .g-dates .dc { display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:10px; border-left:1px solid rgba(42,47,72,0.35); }
@@ -155,6 +169,9 @@
   .g-rows { position:relative; }
   .today-line { position:absolute; top:0; bottom:0; width:2px; background:var(--accent); z-index:3; pointer-events:none; }
   .today-line::after { content:'TODAY'; position:absolute; top:-18px; left:-16px; font-size:8px; font-weight:700; color:var(--accent); letter-spacing:0.5px; }
+  .g-dates .dc.today-col { background:rgba(108,124,255,0.12) !important; }
+  .g-dates .dc.today-col .dd { color:var(--accent) !important; }
+  .g-row .cell.today-col { background:rgba(108,124,255,0.05); }
   .g-row { display:grid; height:40px; border-bottom:1px solid rgba(42,47,72,0.4); position:relative; }
   .g-row.sec { height:30px; background:var(--surface2); }
   .g-row .cell { border-left:1px solid rgba(42,47,72,0.25); }
@@ -243,19 +260,19 @@
   <div class="card taewung">
     <div class="name">박태웅</div><div class="role">Backend &middot; ABE Board &middot; 21d</div>
     <div class="row">
-      <div class="st"><div class="v">112</div><div class="l">Assigned</div></div>
+      <div class="st"><div class="v">132</div><div class="l">Assigned</div></div>
       <div class="st"><div class="v">134</div><div class="l">Budget (80%)</div></div>
-      <div class="st"><div class="v" style="color:#55efc4">22</div><div class="l">Remaining</div></div>
+      <div class="st"><div class="v" style="color:#55efc4">2</div><div class="l">Remaining</div></div>
       <div class="st"><div class="v">34</div><div class="l">Buffer (20%)</div></div>
     </div>
-    <div class="pbar"><div class="fill" style="width:81%"></div></div>
+    <div class="pbar"><div class="fill" style="width:99%"></div></div>
   </div>
   <div class="card hyunsu">
     <div class="name">승현수</div><div class="role">Backend &middot; ABE Board &middot; 20d (휴가1)</div>
     <div class="row">
-      <div class="st"><div class="v">73</div><div class="l">Assigned</div></div>
+      <div class="st"><div class="v">97</div><div class="l">Assigned</div></div>
       <div class="st"><div class="v">128</div><div class="l">Budget (80%)</div></div>
-      <div class="st"><div class="v" style="color:#55efc4">55</div><div class="l">Remaining</div></div>
+      <div class="st"><div class="v" style="color:#55efc4">31</div><div class="l">Remaining</div></div>
       <div class="st"><div class="v">32</div><div class="l">Buffer (20%)</div></div>
     </div>
     <div class="pbar"><div class="fill" style="width:57%"></div></div>
@@ -396,8 +413,8 @@
 <!-- Column Width Control -->
 <div class="controls">
   <label>Column Width</label>
-  <input type="range" id="colSlider" min="30" max="120" value="70" step="5" oninput="resizeCols(this.value)">
-  <span class="val" id="colVal">70px</span>
+  <input type="range" id="colSlider" min="25" max="100" value="55" step="5" oninput="resizeCols(this.value)">
+  <span class="val" id="colVal">55px</span>
 </div>
 
 <!-- Gantt Chart -->
@@ -413,24 +430,27 @@
     <div class="ns qa-note">
       <h4>QA Test Order &amp; Duration</h4>
       <ol>
-        <li><b>SS-419</b> Workflow Group <span class="tag qa">3d</span> <span class="tag buf">4/6 ~ 4/8</span><br>
-          &rarr; 코어 매칭 로직. 다른 피쳐 테스트 전에 매칭 정상 동작 확보 필수</li>
-        <li><b>SS-371</b> Job Detail <span class="tag qa">1d</span> <span class="tag buf">4/10</span><br>
-          &rarr; Admin UI 확인. SS-419 매칭 결과를 활용하여 Job 상태 검증</li>
-        <li><b>SS-409</b> Client 개편 <span class="tag qa">3d</span> <span class="tag buf">4/13 ~ 4/15</span><br>
-          &rarr; User Role 전용 UI. 앞선 이슈 수정 반영 후 테스트</li>
-        <li><b>SS-410</b> DTI Edit <span class="tag qa">3d</span> <span class="tag buf">4/20 ~ 4/22</span><br>
-          &rarr; 독립 신규 기능. SS-416과 함께 개발 완료 후 ST 앞에 배치</li>
+        <li><b>AP-519</b> SS-419 Workflow Group <span class="tag qa">3d</span> <span class="tag buf">4/7 ~ 4/9</span><br>
+          &rarr; 코어 매칭 로직. 리뷰 기한: 4/3(금)</li>
+        <li><b>AP-520</b> SS-371 Job Detail <span class="tag qa">준비3d + 테스트2d</span> <span class="tag buf">준비 4/10~4/14 | 테스트 4/20~4/21</span><br>
+          &rarr; Admin UI + WebSocket. 준비 기간 별도 배치</li>
+        <li><b>AP-521</b> SS-409 Client 개편 <span class="tag qa">3d</span> <span class="tag buf">4/15 ~ 4/17</span><br>
+          &rarr; User Role 전용 UI. 리뷰 기한: 4/10(금)</li>
+        <li><b>AP-522</b> SS-410 DTI Edit <span class="tag qa">3d</span> <span class="tag buf">4/22 ~ 4/24</span><br>
+          &rarr; 독립 신규 기능. 리뷰 기한: 4/16(목)</li>
+        <li><b>AP-527</b> SS-416 Report Tab <span class="tag buf">준비 4/10~4/14</span><br>
+          &rarr; AP-520과 병렬 준비</li>
       </ol>
     </div>
     <div class="ns dep-note">
       <h4>BE &rarr; FE &rarr; Buffer &rarr; QA Rule</h4>
       <ul>
-        <li><b>SS-419:</b> BE(현수 3/30) &rarr; FE(이호 4/1~4/2) &rarr; <span class="tag buf">Buffer 4/3</span> &rarr; <span class="tag qa">QA 4/6~4/8</span></li>
-        <li><b>SS-371:</b> BE(태웅 Done~3/31) &rarr; FE(이호 4/7~4/8) &rarr; <span class="tag buf">Buffer 4/9</span> &rarr; <span class="tag qa">QA 4/10</span></li>
-        <li><b>SS-409:</b> BE(현수 3/31~4/6) &rarr; FE(이호 4/3~4/6, API 4/8~4/9) &rarr; <span class="tag buf">Buffer 4/10</span> &rarr; <span class="tag qa">QA 4/13~4/15</span></li>
-        <li><b>SS-410+416:</b> BE(현수 ~4/14) &rarr; FE(이호 ~4/17) &rarr; <span class="tag buf">Buffer 4/18</span> &rarr; <span class="tag qa">QA 4/20~4/22</span></li>
-        <li><b>SS-376:</b> FE only (이호 3/27) &mdash; QA 대상 아님, BE 무관</li>
+        <li><b>SS-419:</b> BE(현수 3/30) &rarr; FE(이호 4/2~4/3) &rarr; <span class="tag buf">Buffer 4/6</span> &rarr; <span class="tag qa">QA 4/7~4/9</span></li>
+        <li><b>SS-371:</b> BE(태웅 Done) &rarr; FE(이호 4/9) &rarr; <span class="tag buf">준비 4/10~4/14</span> &rarr; <span class="tag qa">QA 4/20~4/21</span></li>
+        <li><b>SS-409:</b> BE(현수 4/1~4/3) &rarr; FE(이호 4/6~4/7, API 4/13) &rarr; <span class="tag buf">Buffer 4/14</span> &rarr; <span class="tag qa">QA 4/15~4/17</span></li>
+        <li><b>SS-410:</b> BE(현수 ~4/20) &rarr; FE(이호 ~4/21) &rarr; <span class="tag qa">QA 4/22~4/24</span></li>
+        <li><b>SS-416:</b> BE(현수 3/31) &rarr; FE(이호 4/17) &rarr; <span class="tag buf">준비 4/10~4/14</span></li>
+        <li><b>SS-376:</b> FE only (이호 3/27) &mdash; QA 대상 아님 <span class="tag fe">Done</span></li>
       </ul>
     </div>
   </div>
@@ -441,14 +461,19 @@
 <script>
 // ── AM/PM Half-Day Slot System ──
 // 1 day = 2 slots (AM + PM), 4p = 1 slot, 8p = 2 slots
-// 19 working days × 2 = 38 slots total
+// Working days + weekends (29 calendar days × 2 = 58 slots, tasks use working-slot indices 0-41)
 const DAYS = [
-  {d:'3/27',n:'금',m:3,dd:27},{d:'3/30',n:'월',m:3,dd:30},{d:'3/31',n:'화',m:3,dd:31},
+  {d:'3/27',n:'금',m:3,dd:27},
+  {d:'3/28',n:'토',m:3,dd:28,we:true},{d:'3/29',n:'일',m:3,dd:29,we:true},
+  {d:'3/30',n:'월',m:3,dd:30},{d:'3/31',n:'화',m:3,dd:31},
   {d:'4/1',n:'수',m:4,dd:1},{d:'4/2',n:'목',m:4,dd:2},{d:'4/3',n:'금',m:4,dd:3},
+  {d:'4/4',n:'토',m:4,dd:4,we:true},{d:'4/5',n:'일',m:4,dd:5,we:true},
   {d:'4/6',n:'월',m:4,dd:6},{d:'4/7',n:'화',m:4,dd:7},{d:'4/8',n:'수',m:4,dd:8},
   {d:'4/9',n:'목',m:4,dd:9},{d:'4/10',n:'금',m:4,dd:10},
+  {d:'4/11',n:'토',m:4,dd:11,we:true},{d:'4/12',n:'일',m:4,dd:12,we:true},
   {d:'4/13',n:'월',m:4,dd:13},{d:'4/14',n:'화',m:4,dd:14},{d:'4/15',n:'수',m:4,dd:15},
   {d:'4/16',n:'목',m:4,dd:16},{d:'4/17',n:'금',m:4,dd:17},
+  {d:'4/18',n:'토',m:4,dd:18,we:true},{d:'4/19',n:'일',m:4,dd:19,we:true},
   {d:'4/20',n:'월',m:4,dd:20},{d:'4/21',n:'화',m:4,dd:21},{d:'4/22',n:'수',m:4,dd:22},
   {d:'4/23',n:'목',m:4,dd:23},{d:'4/24',n:'금',m:4,dd:24},
 ];
@@ -459,8 +484,14 @@ DAYS.forEach(day => {
   W.push({...day, half:'PM'});
 });
 
-let CW = 70; // default column width (half-day slot)
-const TC = W.length; // 38 slots
+let CW = 55; // default column width (half-day slot, narrower with weekends)
+const TC = W.length; // total slots including weekends
+
+// Working slot → absolute slot mapping (skip weekends)
+const workSlots = []; // workSlots[i] = absolute index in W for working slot i
+W.forEach((w,i) => { if (!w.we) workSlots.push(i); });
+// Convert working slot index to absolute slot index
+function ws(workIdx) { return workSlots[workIdx] !== undefined ? workSlots[workIdx] : workIdx; }
 
 const J = 'https://airsmed.atlassian.net/browse/';
 
@@ -522,13 +553,12 @@ const sections = [
       ['Buffer',                   'buf',    8, 9,    0,  '버퍼 1일 (4/2)'],
       // Week 2
       ['ABE-85 SS-417 (8p)',       '--c417', 10,11,   8,  'ABE-85 CronJob Smoke Test\n4/3 (TFS: 8p=1일)\n✅ Done', null, 'ABE-85', true],
-      ['SS-418 Worker (56p)',      '--c418', 12,25,   56, 'SwiftMR Worker Integration\n4/6~4/14 (56p=7일)\n※ ABE 개발카드 미생성', null, 'SS-418'],
+      ['SS-418 Worker (52p)',      '--c418', 12,25,   52, 'SwiftMR Worker Integration\n4/6~4/14 (52p≈6.5일)\n※ ABE 개발카드 미생성', null, 'SS-418'],
       // Week 3
-      ['ABE-94 파이프라인 (8p)',   '--c410', 26,27,   8,  'ABE-94 DTI 파이프라인\n태웅+현수 공동 (TFS: 8p)\n4/15 (1일)', null, 'ABE-94'],
-      ['Buffer',                   'buf',    28,29,   0,  '버퍼 1일 (4/16)'],
+      ['ABE-94 파이프라인 (32p)',   '--c410', 26,33,  32,  'ABE-94 DTI 파이프라인\n태웅+현수 공동 (TFS: 32p)\n4/15~4/20 (4일)', null, 'ABE-94'],
       // Week 4
-      ['ABE-83,84 SS-420 (14p)',   '--c420', 30,33,   14, 'ABE-83 Config BE + ABE-84 Config FE\n4/17~4/20 (14p)', null, 'ABE-83'],
-      ['Buffer',                   'buf',    34,41,   0,  '버퍼 4일 (4/21~4/24)\n여유 26p 활용 가능'],
+      ['ABE-83,84 SS-420 (14p)',   '--c420', 34,37,   14, 'ABE-83 Config BE + ABE-84 Config FE\n4/21~4/22 (14p)', null, 'ABE-83'],
+      ['Buffer',                   'buf',    38,41,   0,  '버퍼 2일 (4/23~4/24)'],
     ]
   },
   {
@@ -550,8 +580,8 @@ const sections = [
       ['Buffer',                   'buf',    20,21,   0,  '버퍼 1일 (4/10)'],
       // Week 3
       ['ABE-93 메타데이터 API (16p)','--c410', 22,25, 16, 'ABE-93 메타데이터 API 논의\nFE(이호 AFE-52)와 동시 진행\n4/13~4/14 (16p=2일)', null, 'ABE-93'],
-      ['ABE-94 파이프라인 (8p)',   '--c410', 26,27,   8,  'ABE-94 DTI 파이프라인\n태웅+현수 공동 (TFS: 8p)\n4/15 (1일)', null, 'ABE-94'],
-      ['Buffer',                   'buf',    28,41,   0,  '버퍼 (~7일)\n연구팀 의존성 / QA 피드백 대응\nABE-97은 정우진님 이관\n여유 55p 활용 가능'],
+      ['ABE-94 파이프라인 (32p)',   '--c410', 26,33,  32,  'ABE-94 DTI 파이프라인\n태웅+현수 공동 (TFS: 32p)\n4/15~4/20 (4일)', null, 'ABE-94'],
+      ['Buffer',                   'buf',    34,41,   0,  '버퍼 (~4일)\n연구팀 의존성 / QA 피드백 대응\nABE-97은 정우진님 이관'],
     ]
   },
   {
@@ -594,12 +624,13 @@ function build() {
   W.forEach((w,i) => {
     const c = document.createElement('div');
     const isAM = w.half === 'AM';
-    c.className = 'dc' + (isAM ? '' : ' pm-slot');
+    const isWE = w.we === true;
+    c.className = 'dc' + (isAM ? '' : ' pm-slot') + (isWE ? ' weekend' : '');
     if (isAM) {
       const sm = w.m !== pm; pm = w.m;
       c.innerHTML = `<span class="dn">${sm ? w.m+'월 ' : ''}${w.n}</span><span class="dd">${w.dd}</span>`;
     } else {
-      c.innerHTML = `<span class="dn">PM</span>`;
+      c.innerHTML = `<span class="dn">${isWE ? '' : 'PM'}</span>`;
       c.style.borderLeft = 'none';
     }
     D.appendChild(c);
@@ -619,7 +650,7 @@ function build() {
     sr.className = 'g-row sec';
     sr.setAttribute('data-sec', secIdx);
     sr.style.gridTemplateColumns = `repeat(${TC},${CW}px)`;
-    for(let i=0;i<TC;i++){const c=document.createElement('div');c.className='cell'+(i%2?'':' am-cell');sr.appendChild(c);}
+    for(let i=0;i<TC;i++){const c=document.createElement('div');c.className='cell'+(i%2?'':' am-cell')+(W[i].we?' weekend-cell':'');sr.appendChild(c);}
     R.appendChild(sr);
 
     sec.tasks.forEach(t => {
@@ -653,8 +684,13 @@ function build() {
         bar.style.background = `linear-gradient(135deg, ${col}dd, ${col}88)`;
       }
 
-      bar.style.left = (s*CW+2)+'px';
-      bar.style.width = (span*CW-4)+'px';
+      // Map working slot indices to absolute positions (skipping weekends)
+      const absS = ws(s);
+      const absE = ws(e);
+      const absSpan = absE - absS + 1;
+      bar.style.left = (absS*CW+2)+'px';
+      bar.style.width = (absSpan*CW-4)+'px';
+      if (cv && cv !== 'buf') bar.setAttribute('data-cv', cv);
 
       if (jiraKey) {
         bar.setAttribute('data-jira', jiraKey);
@@ -666,11 +702,11 @@ function build() {
       const doneIcon = done ? '<span class="done-check">✅</span>' : '';
       bar.innerHTML = `${doneIcon}<span class="bl">${short}</span>${pts?`<span class="bp">${pts}p</span>`:''}`;
 
-      // Tooltip with slot info
-      const startDay = DAYS[Math.floor(s/2)];
-      const endDay = DAYS[Math.floor(e/2)];
-      const startHalf = s%2===0 ? 'AM' : 'PM';
-      const endHalf = e%2===0 ? 'AM' : 'PM';
+      // Tooltip with slot info (use absolute slots for date lookup)
+      const startDay = W[absS] || DAYS[0];
+      const endDay = W[absE] || DAYS[DAYS.length-1];
+      const startHalf = startDay.half || 'AM';
+      const endHalf = endDay.half || 'PM';
       bar.setAttribute('data-tip',`${label}\n${startDay.d} ${startHalf} ~ ${endDay.d} ${endHalf}\n${pts ? pts+' Story Points ('+Math.ceil(pts/4)+' slots)' : (cls==='qa-bar'?'QA Test':'Buffer')}${jiraKey ? '\n🔗 Click → '+jiraKey : ''}\n\n${tip}`);
       bar.addEventListener('mouseenter', showTT);
       bar.addEventListener('mouseleave', hideTT);
@@ -681,19 +717,31 @@ function build() {
     });
   });
 
-  // Today line
+  // Today line — always centered between AM and PM of today
   const today = new Date();
   const todayM = today.getMonth() + 1;
   const todayD = today.getDate();
-  let todaySlot = -1;
+  let todayAMSlot = -1;
   for (let i = 0; i < W.length; i++) {
-    if (W[i].m === todayM && W[i].dd === todayD && W[i].half === 'AM') { todaySlot = i; break; }
+    if (W[i].m === todayM && W[i].dd === todayD && W[i].half === 'AM') { todayAMSlot = i; break; }
   }
-  if (todaySlot >= 0) {
+  if (todayAMSlot >= 0) {
+    // Line between AM and PM (at the boundary of AM slot end = PM slot start)
     const line = document.createElement('div');
     line.className = 'today-line';
-    line.style.left = (todaySlot * CW) + 'px';
+    line.style.left = ((todayAMSlot + 1) * CW) + 'px'; // between AM and PM
     R.appendChild(line);
+
+    // Highlight both AM and PM columns for today
+    document.querySelectorAll('.g-dates .dc').forEach((dc, i) => {
+      if (i === todayAMSlot || i === todayAMSlot + 1) dc.classList.add('today-col');
+    });
+    document.querySelectorAll('.g-row .cell').forEach(cell => {
+      const row = cell.parentElement;
+      const cells = Array.from(row.children);
+      const idx = cells.indexOf(cell);
+      if (idx === todayAMSlot || idx === todayAMSlot + 1) cell.classList.add('today-col');
+    });
   }
 
   C.appendChild(R);
@@ -710,6 +758,48 @@ function build() {
       rows.forEach(r => r.classList.toggle('collapsed', !isHidden));
       labels.forEach(l => l.classList.toggle('collapsed', !isHidden));
       el.querySelector('.toggle').textContent = isHidden ? '-' : '+';
+    });
+  });
+  // ── Story filter: legend click ──
+  let activeFilter = null;
+  document.querySelectorAll('.legend .leg').forEach(leg => {
+    leg.addEventListener('click', () => {
+      const dotEl = leg.querySelector('.dot');
+      const bgStyle = dotEl.style.background || dotEl.style.backgroundColor;
+      // Extract CSS var name from the dot's background
+      const varMatch = bgStyle.match(/var\((--c\w+)\)/);
+      const colorVar = varMatch ? varMatch[1] : null;
+
+      if (!colorVar) return;
+
+      // Toggle
+      if (activeFilter === colorVar) {
+        activeFilter = null;
+        leg.classList.remove('active');
+        document.querySelectorAll('.bar').forEach(b => b.classList.remove('dimmed'));
+        document.querySelectorAll('.g-labels .lr:not(.sec)').forEach(l => l.classList.remove('dimmed'));
+        return;
+      }
+
+      // Activate filter
+      document.querySelectorAll('.legend .leg').forEach(l => l.classList.remove('active'));
+      leg.classList.add('active');
+      activeFilter = colorVar;
+
+      // Dim non-matching bars
+      document.querySelectorAll('.bar').forEach(b => {
+        const bCv = b.getAttribute('data-cv');
+        if (!bCv) { b.classList.add('dimmed'); return; }
+        b.classList.toggle('dimmed', bCv !== '--'+colorVar.replace('--',''));
+      });
+      // Dim non-matching labels
+      document.querySelectorAll('.g-labels .lr:not(.sec)').forEach((l, i) => {
+        const row = document.querySelectorAll('.g-rows .g-row:not(.sec)')[i];
+        if (row) {
+          const bar = row.querySelector('.bar');
+          l.classList.toggle('dimmed', bar && bar.classList.contains('dimmed'));
+        }
+      });
     });
   });
 }
