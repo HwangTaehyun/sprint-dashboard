@@ -22,7 +22,19 @@ Jira에서 스프린트 플래닝을 수행하는 통합 스킬. Story 카드(SS
 - **Epic**: SS-172 `[Sprint 2026/03/19 ~ 2026/05/08 - v 2.0.0.0]`
 - **Epic Link Field**: `customfield_10014`
 - **Technical Feasibility Score Field**: `customfield_10175` (ABE 보드에서 스토리 포인트 대신 사용)
-- **Story Description Template Field**: `customfield_10669` (SS Story 카드)
+
+### SS 프로젝트 Description 필드 (이슈 타입별 다름!)
+
+| 이슈 타입 | 필드 이름 | Custom Field ID | 형식 |
+|-----------|----------|----------------|------|
+| **Story** | SwiftSight Story Description | `customfield_10669` | ADF |
+| **Task** | SwiftSight Task Description | `customfield_10701` | ADF |
+
+**주의:**
+- `description` 표준 필드에 써도 API에서는 저장되지만 **Jira UI에 표시되지 않음**
+- 반드시 이슈 타입에 맞는 커스텀 필드에 ADF 형식으로 작성해야 함
+- markdown `contentFormat`은 이 필드에서 거부됨 → ADF JSON 직접 구성 필요
+- ABE/AFE 보드 Task 카드는 표준 `description` 필드 사용 (markdown 가능)
 
 ## 팀 Account IDs
 
@@ -75,7 +87,42 @@ createJiraIssue({
 })
 ```
 
-### 4. QA 카드 생성 (AP 보드)
+### 4. SS Story/Task Description 작성
+
+SS 프로젝트 카드의 Description은 **표준 description이 아닌 커스텀 필드**에 **ADF 형식**으로 작성해야 UI에 표시된다.
+
+```javascript
+// SS Story 카드 Description 작성
+editJiraIssue({
+  cloudId: "airsmed.atlassian.net",
+  issueIdOrKey: "SS-XXX",
+  fields: {
+    "customfield_10669": {  // Story → customfield_10669
+      "version": 1, "type": "doc",
+      "content": [
+        {"type": "heading", "attrs": {"level": 1}, "content": [{"type": "text", "text": "제목"}]},
+        {"type": "paragraph", "content": [{"type": "text", "text": "내용"}]},
+        {"type": "bulletList", "content": [
+          {"type": "listItem", "content": [{"type": "paragraph", "content": [{"type": "text", "text": "항목"}]}]}
+        ]}
+      ]
+    }
+  }
+})
+
+// SS Task 카드 Description 작성
+editJiraIssue({
+  cloudId: "airsmed.atlassian.net",
+  issueIdOrKey: "SS-XXX",
+  fields: {
+    "customfield_10701": { ... }  // Task → customfield_10701
+  }
+})
+```
+
+**주의:** `contentFormat: "markdown"` 은 이 필드에서 거부됨. ADF JSON 직접 작성 필수.
+
+### 5. QA 카드 생성 (AP 보드)
 
 ```javascript
 // QA 피쳐 테스트 카드 — AP 프로젝트에 "QA" 이슈 타입으로 생성

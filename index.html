@@ -455,8 +455,7 @@
           &rarr; Admin UI + WebSocket. 준비 기간 별도 배치</li>
         <li><b>AP-521</b> SS-409 Client 개편 <span class="tag qa">3d</span> <span class="tag buf">4/15 ~ 4/17</span><br>
           &rarr; User Role 전용 UI. 리뷰 기한: 4/10(금)</li>
-        <li><b>AP-522</b> SS-410 DTI Edit <span class="tag qa">3d</span> <span class="tag buf">4/22 ~ 4/24</span><br>
-          &rarr; 독립 신규 기능. 리뷰 기한: 4/16(목)</li>
+        <li><s><b>AP-522</b> SS-410 DTI Edit</s> &rarr; ST 기간으로 이관 (ABE-94 4/23 완료로 FT 기간 내 불가)</li>
         <li><b>AP-527</b> SS-416 Report Tab <span class="tag buf">준비 4/10~4/14</span><br>
           &rarr; AP-520과 병렬 준비</li>
       </ol>
@@ -569,9 +568,9 @@ const sections = [
       ['Buffer',                   'buf',    20,21,  0,  '버퍼 1일 (4/10)\nWeek 2 리프레시'],
       // Week 3: 4/13~4/17
       ['AFE-49 SS-409 API연동',    '--c409', 22,23,  8,  'AFE-49 Client 개편 API 연동\n4/13 (8p=1일)', null, 'AFE-49'],
-      ['AFE-52 메타데이터 API 논의','--c410', 24,27, 16, 'AFE-52 DTI 메타데이터 API 스펙 논의\nBE(승현수 ABE-93)와 동시 진행\n4/14~4/15 (16p=2일)', null, 'AFE-52'],
-      ['Buffer',                   'buf',    28,29,  0,  '버퍼 1일 (4/16)\nWeek 3 리프레시'],
-      ['AFE-45 SS-416 Report',     '--c416', 30,31,  8,  'AFE-45 Report 탭 + API연동\n4/17 (8p=1일)', null, 'AFE-45'],
+      ['AFE-45 SS-416 Report',     '--c416', 24,25,  8,  'AFE-45 Report 탭 + API연동\n4/14 (8p=1일)', null, 'AFE-45'],
+      ['Buffer',                   'buf',    26,27,  0,  '버퍼 1일 (4/15)\nWeek 3 리프레시'],
+      ['AFE-52 메타데이터 API 논의','--c410', 28,31, 16, 'AFE-52 DTI 메타데이터 API 스펙 논의\nBE(승현수 ABE-93)와 동시 진행\n4/16~4/17 (목,금)', null, 'AFE-52'],
       // Week 4: 4/20~4/24
       ['AFE-50 SS-410 API연동',    '--c410', 32,33,  8,  'AFE-50 DTI edit API 연동\n4/20 (8p=1일)', null, 'AFE-50'],
       ['AFE-41 SS-356 (4p)',        '--c356', 34,34,  4,  'AFE-41 CSV export API연동\n4/21 AM (TFS: 4p)', null, 'AFE-41'],
@@ -591,10 +590,11 @@ const sections = [
       ['ABE-85 SS-417 (8p)',       '--c417', 10,11,   8,  'ABE-85 CronJob Smoke Test\n4/3 (TFS: 8p=1일)\n✅ Done', null, 'ABE-85', true],
       ['SS-418 Worker (52p)',      '--c418', 12,25,   52, 'SwiftMR Worker Integration\n4/6~4/14 (52p≈6.5일)\n※ ABE 개발카드 미생성', null, 'SS-418'],
       // Week 3
-      ['ABE-94 파이프라인 (32p)',   '--c410', 26,33,  32,  'ABE-94 DTI 파이프라인\n태웅+현수 공동 (TFS: 32p)\n4/15~4/20 (4일)', null, 'ABE-94'],
+      ['ABE-83,84 SS-420 (14p)',   '--c420', 26,29,   14, 'ABE-83 Config BE + ABE-84 Config FE\n4/15~4/16 (14p)', null, 'ABE-83'],
+      ['Buffer',                   'buf',    30,31,   0,  '버퍼 1일 (4/17)'],
       // Week 4
-      ['ABE-83,84 SS-420 (14p)',   '--c420', 34,37,   14, 'ABE-83 Config BE + ABE-84 Config FE\n4/21~4/22 (14p)', null, 'ABE-83'],
-      ['Buffer',                   'buf',    38,41,   0,  '버퍼 2일 (4/23~4/24)'],
+      ['ABE-94 파이프라인 (32p)',   '--c410', 32,39,  32,  'ABE-94 DTI 파이프라인\n태웅+현수 공동 (TFS: 32p)\n4/20~4/23 (4일)', null, 'ABE-94'],
+      ['Buffer',                   'buf',    40,41,   0,  '버퍼 1일 (4/24)'],
     ]
   },
   {
@@ -609,15 +609,13 @@ const sections = [
       ['ABE-95 Migration (4p)',    '--c416', 5, 5,    4,  'ABE-95 ReviewStatus migration\n★ 선행 필수\n3/31 PM (4p=반나절)', null, 'ABE-95'],
       ['ABE-69 SS-409 API (13p)',  '--c409', 6, 9,    13, 'ABE-69 Client 개편 설계\n4/1~4/2 (13p≈2일)', null, 'ABE-69'],
       ['Buffer',                   'buf',    10,10,   0,  '4/3 AM 여유'],
-      ['ABE-96 Socket (5p)',       '--c409', 11,11,   5,  'ABE-96 Socket 핸들링 설계\nblocked by ABE-95 ✓\n4/3 PM (5p=반나절)', null, 'ABE-96'],
-      // Week 2
-      ['Buffer',                   'buf',    12,15,   0,  '버퍼 2일 (4/6~4/7)\n기획 추가 회의 / 연구팀 조율'],
-      ['ABE-72 DTI edit (14p)',    '--c410', 16,19,   14, 'ABE-72 DTI edit 기능\nblocked by ABE-95 ✓\n4/8~4/9 (14p≈2일, 수요일 시작)', null, 'ABE-72'],
-      ['Buffer',                   'buf',    20,21,   0,  '버퍼 1일 (4/10)'],
-      // Week 3
-      ['ABE-93 메타데이터 API (16p)','--c410', 22,25, 16, 'ABE-93 메타데이터 API 논의\nFE(이호 AFE-52)와 동시 진행\n4/13~4/14 (16p=2일)', null, 'ABE-93'],
-      ['ABE-94 파이프라인 (32p)',   '--c410', 26,33,  32,  'ABE-94 DTI 파이프라인\n태웅+현수 공동 (TFS: 32p)\n4/15~4/20 (4일)', null, 'ABE-94'],
-      ['Buffer',                   'buf',    34,41,   0,  '버퍼 (~4일)\n연구팀 의존성 / QA 피드백 대응\nABE-97은 정우진님 이관'],
+      ['ABE-96 Socket (5p)',       '--c409', 11,21,   5,  'ABE-96 Socket 핸들링 설계\nblocked by ABE-95 ✓\n4/3~4/10 (due 4/10 금)', null, 'ABE-96'],
+      // Week 3: DTI edit → 메타데이터 API
+      ['ABE-72 DTI edit (14p)',    '--c410', 22,25,   14, 'ABE-72 DTI edit 사전 연동 작업\nblocked by ABE-95 ✓\n4/13~4/14 (월,화)', null, 'ABE-72'],
+      ['ABE-93 메타데이터 API (16p)','--c410', 26,31, 16, 'ABE-93 메타데이터 API 논의\nFE(이호 AFE-52 목,금)와 동시 진행\n4/15~4/17 (수,목,금)', null, 'ABE-93'],
+      // Week 4: 파이프라인
+      ['ABE-94 파이프라인 (32p)',   '--c410', 32,39,  32,  'ABE-94 DTI 파이프라인\n태웅+현수 공동 (TFS: 32p)\n4/20~4/23 (4일)', null, 'ABE-94'],
+      ['Buffer',                   'buf',    40,41,   0,  '버퍼 1일 (4/24)\nABE-97은 정우진님 이관'],
     ]
   },
   {
@@ -633,7 +631,7 @@ const sections = [
       // SS-371 테스트: 4/20~4/21
       ['AP-520 QA: SS-371 (2d)',   '--cqa',  32,35,  0,  'Job Execution Detail 테스트 (2일)\n4/20~4/21', 'qa-bar', 'AP-520'],
       // SS-410: QA 4/22~4/24
-      ['AP-522 QA: SS-410 (3d)',   '--cqa',  36,41,  0,  'DTI Edit 테스트 (3일)\n4/22~4/24', 'qa-bar', 'AP-522'],
+      ['Buffer',                   'buf',    36,41,  0,  'AP-522 SS-410 QA → ST 기간으로 이관\n(ABE-94 4/23 완료로 FT 불가)'],
     ]
   },
   {
