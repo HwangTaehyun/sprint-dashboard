@@ -12,6 +12,7 @@ Jira에서 스프린트 플래닝을 수행하는 통합 스킬. Story 카드(SS
 | Board | Project Key | 용도 | 담당 |
 |-------|-------------|------|------|
 | SwiftSight (SS) | `SS` | Story/Task 카드 (기능 단위) | PM (황태현) |
+| AI Transformation (AT) | `AT` | Story/Task 카드 (AI 혁신) | PM (황태현) |
 | AIRS Backend (ABE) | `ABE` | BE 개발카드 | 박태웅, 승현수 |
 | AIRS Frontend (AFE) | `AFE` | FE 개발카드 | 박이호 |
 | AIRS PQ (AP) | `AP` | QA 피쳐 테스트 카드 | 전영선 (Milla) |
@@ -35,6 +36,72 @@ Jira에서 스프린트 플래닝을 수행하는 통합 스킬. Story 카드(SS
 - 반드시 이슈 타입에 맞는 커스텀 필드에 ADF 형식으로 작성해야 함
 - markdown `contentFormat`은 이 필드에서 거부됨 → ADF JSON 직접 구성 필요
 - ABE/AFE 보드 Task 카드는 표준 `description` 필드 사용 (markdown 가능)
+
+### AT 프로젝트 Description 필드
+
+| 이슈 타입 | 필드 이름 | Custom Field ID | 형식 |
+|-----------|----------|----------------|------|
+| **Story** | AI Transformation Story Description | `customfield_11047` | ADF |
+
+**AT Story 템플릿 구조** (Default Value로 자동 로드됨):
+
+```
+## User Needs
+누구의 어떤 요구사항/문제를 해결하려고 하나요?
+내부 요청자: (이름)
+
+### N1: (요구사항 제목) (우선순위: 상/중/하)
+**구체적 문제점:** ...
+**기대 효과:** ...
+
+### N2: ...
+
+---
+
+## Solutions
+해결책 유형: ✅ New feature / Improvement / Bug fix
+
+### S1. (해결책 제목) (N1 해결)
+- 상세 설명
+- 참고 사항
+
+### S2. ...
+
+---
+
+## Use Cases
+
+### UC-1: (제목)
+- **사전조건:** ...
+- **관련 Solution:** S1
+
+| Step | Actor | Action / System Response |
+|------|-------|--------------------------|
+| 1 | 유저/시스템 | ... |
+
+- **기대결과:** ...
+
+---
+
+## 기능 요구사항
+
+| ID | 요구사항 | 관련 Solution | 우선순위 |
+|----|---------|--------------|---------|
+| FR-1 | ... | S1 | 상 |
+
+---
+
+## 참고 사항
+- ...
+
+---
+
+## PM에게 확인 필요한 사항
+
+| # | 질문 | 배경 | 결정 |
+|---|------|------|------|
+| 1 | ... | ... | ... |
+```
 
 ## 팀 Account IDs
 
